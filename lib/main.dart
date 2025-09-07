@@ -1,11 +1,13 @@
+import 'package:choach_debate/features/Auth/presentation/bloc/auth_bloc.dart';
 import 'package:choach_debate/features/Debate/presentation/bloc/debate_bloc.dart';
 import 'package:choach_debate/features/Topics/presentation/bloc/topics_bloc.dart';
-import 'package:choach_debate/features/Topics/presentation/pages/topic_page.dart';
 import 'package:choach_debate/injection.dart' as di;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'features/Auth/presentation/pages/auth_pages.dart';
+import 'package:flutter/services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,9 +24,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.white,
+        statusBarIconBrightness: Brightness.dark,
+      ),
+    );
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => di.sl<DebateBloc>()),
+        BlocProvider(create: (context) => di.sl<AuthBloc>()),
         BlocProvider(
           create: (context) => di.sl<TopicsBloc>()..add(GetTopicsEvent()),
         ),
@@ -36,7 +45,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: TopicPage(),
+        home: AuthPages(),
       ),
     );
   }
