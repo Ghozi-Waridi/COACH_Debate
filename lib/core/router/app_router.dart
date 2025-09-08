@@ -1,10 +1,13 @@
 import 'package:choach_debate/features/Auth/presentation/bloc/auth_bloc.dart';
 import 'package:choach_debate/features/Auth/presentation/pages/auth_pages.dart';
+import 'package:choach_debate/features/Home/presentation/pages/home_page.dart';
+import 'package:choach_debate/shared/presentation/pages/navigation_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:choach_debate/core/router/app_router_enum.dart';
 import 'package:choach_debate/injection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AppRouter {
   static final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
@@ -26,7 +29,7 @@ class AppRouter {
   static GoRouter router = GoRouter(
     refreshListenable: GoRouterRefreshStream(sl<AuthBloc>().stream),
     navigatorKey: _rootNavigatorKey,
-    initialLocation: AppRouterEnum.loginScreen.path,
+    initialLocation: AppRouterEnum.homeScreen.path,
 
     routes: [
       GoRoute(
@@ -38,10 +41,15 @@ class AppRouter {
           child: AuthPages(),
         ),
       ),
+
       // Page for HomeScreen
       StatefulShellRoute.indexedStack(
-        builder: (context, state, navigationshell) => Container(),
+        builder: (context, state, navigationshell) => NavigationPage(
+          navigationShell: navigationshell,
+          navigatorKey: _scaffoldKey,
+        ),
         branches: [
+          // HomeBranch
           StatefulShellBranch(
             navigatorKey: _sheelNavigatorHome,
             routes: [
@@ -49,13 +57,33 @@ class AppRouter {
                 parentNavigatorKey: _sheelNavigatorHome,
                 path: AppRouterEnum.homeScreen.path,
                 name: AppRouterEnum.homeScreen.name,
-                builder: (context, state) => Container(),
+                builder: (context, state) => HomePage(),
+                // SubRoute || SubPage
+                routes: [
+
+                ]
               ),
             ],
           ),
         ],
       ),
     ],
+    redirect: (BuildContext context, GoRouterState state) {
+      final currenLocation = state.uri.toFilePath();
+      final currentUser = Supabase.instance.client.auth.currentUser;
+      final isLoogin = currentUser != null;
+
+      final publicRoutes = [AppRouterEnum.loginScreen.path];
+      final isPublish = publicRoutes.contains(currenLocation);
+      // if (isLoogin && isPublish) {
+      //   return AppRouterEnum.homeScreen.path;
+      // }
+      //
+      // if (!isLoogin && !isPublish) {
+      //   return AppRouterEnum.loginScreen.path;
+      // }
+      return null;
+    },
   );
 }
 

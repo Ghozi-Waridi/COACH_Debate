@@ -26,7 +26,8 @@ class _NavigationPageState extends State<NavigationPage> {
     }
 
     return Scaffold(
-      backgroundColor: Colors.blueGrey,
+      extendBody: true,
+      backgroundColor: Colors.transparent,
       body: widget.navigationShell,
       bottomNavigationBar: CustomNavigationWidget(
         navigationShell: widget.navigationShell,

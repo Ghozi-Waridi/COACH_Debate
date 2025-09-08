@@ -1,5 +1,8 @@
+import 'dart:math';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:liquid_glass_renderer/liquid_glass_renderer.dart';
 
 class CustomNavigationWidget extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
@@ -14,36 +17,64 @@ class CustomNavigationWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final int currentIndex = navigationShell.currentIndex;
     return Container(
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 10,
-            spreadRadius: 5,
-            offset: const Offset(0, -1),
+      margin: EdgeInsets.all(16.0),
+
+      child: LiquidGlass(
+        shape: LiquidRoundedSuperellipse(borderRadius: Radius.circular(50.0)),
+        settings: LiquidGlassSettings(
+          thickness: 12,
+          lightAngle: 0.5 * pi,
+          blend: 60,
+          chromaticAberration: 1.2,
+          lightIntensity: 1.2,
+        ),
+
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(50.0),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: BottomNavigationBar(
+                iconSize: 28,
+                selectedItemColor: Colors.white,
+                unselectedItemColor: Colors.grey,
+                showSelectedLabels: true,
+                showUnselectedLabels: true,
+                backgroundColor: Colors.transparent,
+                currentIndex: currentIndex,
+                selectedLabelStyle: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+                unselectedLabelStyle: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                ),
+                onTap: (index) {
+                  goToBranch(index);
+                },
+                items: [
+                  _bottomNavigationBarItem(
+                    'Home',
+                    Icons.home,
+                    currentIndex == 0,
+                  ),
+                  _bottomNavigationBarItem(
+                    'Analis',
+                    Icons.newspaper,
+                    currentIndex == 1,
+                  ),
+                  _bottomNavigationBarItem(
+                    'Profile',
+                    Icons.person,
+                    currentIndex == 2,
+                  ),
+                ],
+              ),
+            ),
           ),
-        ],
-      ),
-      child: BottomNavigationBar(
-        iconSize: 28,
-        selectedItemColor: Colors.red,
-        unselectedItemColor: Colors.grey,
-        showSelectedLabels: true,
-        showUnselectedLabels: true,
-        backgroundColor: Colors.purple,
-        currentIndex: currentIndex,
-        selectedLabelStyle: const TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.bold,
         ),
-        unselectedLabelStyle: const TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.w400,
-        ),
-        onTap: (index) {
-          goToBranch(index);
-        },
-        items: [],
       ),
     );
   }
@@ -53,6 +84,35 @@ class CustomNavigationWidget extends StatelessWidget {
     IconData icon,
     bool isSelected,
   ) {
-    return BottomNavigationBarItem(icon: Icon(icon), label: label);
+    return BottomNavigationBarItem(
+      icon: AnimatedScale(
+        duration: const Duration(milliseconds: 250),
+        scale: isSelected ? 1.3 : 1.0,
+        child: SizedBox(
+          width: 50,
+          height: 50,
+          child: LiquidGlass(
+            shape: const LiquidRoundedSuperellipse(
+              borderRadius: Radius.circular(20.0),
+            ),
+            settings: LiquidGlassSettings(
+              thickness: 8,
+              lightAngle: 0.5 * pi,
+              blend: 50,
+              chromaticAberration: 1.0,
+              lightIntensity: 1.1,
+            ),
+            child: Center(
+              child: Icon(
+                icon,
+                color: isSelected ? Colors.white : Colors.grey,
+                size: 35,
+              ),
+            ),
+          ),
+        ),
+      ),
+      label: label,
+    );
   }
 }

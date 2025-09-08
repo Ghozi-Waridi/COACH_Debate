@@ -9,6 +9,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'features/Auth/presentation/pages/auth_pages.dart';
 import 'features/Home/presentation/pages/home_page.dart';
 import 'package:flutter/services.dart';
+import 'package:choach_debate/core/router/app_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,14 +40,15 @@ class MyApp extends StatelessWidget {
           create: (context) => di.sl<TopicsBloc>()..add(GetTopicsEvent()),
         ),
       ],
-      child: MaterialApp(
+      child: MaterialApp.router(
         title: 'Debat LLM',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: HomePage(),
+        // home: HomePage(),
+        routerConfig: AppRouter.router,
       ),
     );
   }
