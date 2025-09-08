@@ -17,7 +17,7 @@ void main() async {
   String supabaseKEY = dotenv.env["SUPABASE_KEY"] ?? "";
   await Supabase.initialize(url: supabaseURL, anonKey: supabaseKEY);
   await di.init();
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
