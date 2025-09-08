@@ -1,6 +1,8 @@
+import 'package:choach_debate/features/Analis/presentation/pages/analis_page.dart';
 import 'package:choach_debate/features/Auth/presentation/bloc/auth_bloc.dart';
 import 'package:choach_debate/features/Auth/presentation/pages/auth_pages.dart';
 import 'package:choach_debate/features/Home/presentation/pages/home_page.dart';
+import 'package:choach_debate/features/Profile/presentation/pages/profile_page.dart';
 import 'package:choach_debate/shared/presentation/pages/navigation_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -62,6 +64,32 @@ class AppRouter {
                 routes: [
 
                 ]
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            navigatorKey: _sheelNavigatorProfile,
+            routes: [
+              GoRoute(
+                parentNavigatorKey: _sheelNavigatorProfile,
+                path: AppRouterEnum.profileScreen.path,
+                name: AppRouterEnum.profileScreen.path,
+                builder: (context, state) => ProfilePage(),
+                routes: [
+
+                ]
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            navigatorKey: _sheelNavigatorAnalis,
+            routes: [
+              GoRoute(
+                parentNavigatorKey: _sheelNavigatorAnalis,
+                path: AppRouterEnum.analiticsScreen.path,
+                name: AppRouterEnum.analiticsScreen.name,
+                builder: (context, state) => AnalisPage(),
+                routes: [],
               ),
             ],
           ),
