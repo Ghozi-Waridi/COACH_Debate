@@ -2,7 +2,10 @@ import 'package:choach_debate/features/Analis/presentation/pages/analis_page.dar
 import 'package:choach_debate/features/Auth/presentation/bloc/auth_bloc.dart';
 import 'package:choach_debate/features/Auth/presentation/pages/auth_pages.dart';
 import 'package:choach_debate/features/Home/presentation/pages/home_page.dart';
+import 'package:choach_debate/features/Profile/presentation/bloc/profile_bloc.dart';
 import 'package:choach_debate/features/Profile/presentation/pages/profile_page.dart';
+import 'package:choach_debate/features/Topics/presentation/bloc/topics_bloc.dart';
+import 'package:choach_debate/features/Topics/presentation/pages/topic_page.dart';
 import 'package:choach_debate/shared/presentation/pages/navigation_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -31,7 +34,7 @@ class AppRouter {
   static GoRouter router = GoRouter(
     refreshListenable: GoRouterRefreshStream(sl<AuthBloc>().stream),
     navigatorKey: _rootNavigatorKey,
-    initialLocation: AppRouterEnum.homeScreen.path,
+    initialLocation: AppRouterEnum.loginScreen.path,
 
     routes: [
       GoRoute(
@@ -62,22 +65,16 @@ class AppRouter {
                 builder: (context, state) => HomePage(),
                 // SubRoute || SubPage
                 routes: [
-
-                ]
-              ),
-            ],
-          ),
-          StatefulShellBranch(
-            navigatorKey: _sheelNavigatorProfile,
-            routes: [
-              GoRoute(
-                parentNavigatorKey: _sheelNavigatorProfile,
-                path: AppRouterEnum.profileScreen.path,
-                name: AppRouterEnum.profileScreen.path,
-                builder: (context, state) => ProfilePage(),
-                routes: [
-
-                ]
+                  GoRoute(
+                    parentNavigatorKey: _sheelNavigatorHome,
+                    path: AppRouterEnum.topicsScreen.path,
+                    name: AppRouterEnum.topicsScreen.name,
+                    builder: (context, state) => BlocProvider(
+                      create: (context) => sl<TopicsBloc>(),
+                      child: const TopicPage(),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -93,6 +90,24 @@ class AppRouter {
               ),
             ],
           ),
+          StatefulShellBranch(
+            navigatorKey: _sheelNavigatorProfile,
+            routes: [
+              GoRoute(
+                parentNavigatorKey: _sheelNavigatorProfile,
+                path: AppRouterEnum.profileScreen.path,
+                name: AppRouterEnum.profileScreen.path,
+                builder: (context, state) => BlocProvider(
+                  create: (context) =>
+                      sl<ProfileBloc>()..add(FetchProfilePressed()),
+                  child: ProfilePage(),
+                ),
+                routes: [
+
+                ]
+              ),
+            ],
+          ),
         ],
       ),
     ],
@@ -103,13 +118,13 @@ class AppRouter {
 
       final publicRoutes = [AppRouterEnum.loginScreen.path];
       final isPublish = publicRoutes.contains(currenLocation);
-      // if (isLoogin && isPublish) {
-      //   return AppRouterEnum.homeScreen.path;
-      // }
-      //
-      // if (!isLoogin && !isPublish) {
-      //   return AppRouterEnum.loginScreen.path;
-      // }
+      if (isLoogin && isPublish) {
+        return AppRouterEnum.homeScreen.path;
+      }
+
+      if (!isLoogin && !isPublish) {
+        return AppRouterEnum.loginScreen.path;
+      }
       return null;
     },
   );

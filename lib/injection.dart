@@ -12,6 +12,12 @@ import 'package:choach_debate/features/Debate/domain/repositories/chat_repositor
 import 'package:choach_debate/features/Debate/domain/usecases/create_session_usecase.dart';
 import 'package:choach_debate/features/Debate/domain/usecases/send_message_usecase.dart';
 import 'package:choach_debate/features/Debate/presentation/bloc/debate_bloc.dart';
+import 'package:choach_debate/features/Profile/data/datasources/profile_remote_data_source.dart';
+import 'package:choach_debate/features/Profile/data/repositories/profile_repository_impl.dart';
+import 'package:choach_debate/features/Profile/domain/repositories/profile_repository.dart';
+import 'package:choach_debate/features/Profile/domain/usecases/fetchProfile_usecase.dart';
+import 'package:choach_debate/features/Profile/domain/usecases/updateProfile_usecase.dart';
+import 'package:choach_debate/features/Profile/presentation/bloc/profile_bloc.dart';
 import 'package:choach_debate/features/Stt/data/datasources/stt_datasource.dart';
 import 'package:choach_debate/features/Stt/data/repositories/stt_repository_impl.dart';
 import 'package:choach_debate/features/Stt/domain/repositories/stt_repository.dart';
@@ -102,6 +108,19 @@ Future<void> init() async {
   sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(sl()));
   sl.registerLazySingleton<AuthRemoteDataSource>(
     () => AuthRemoteDataSourceImpl(supabaseClient: sl()),
+  );
+
+  // Profile
+  sl.registerFactory(
+    () => ProfileBloc(fetchProfileUseCase: sl(), updateProfileUseCase: sl()),
+  );
+  sl.registerLazySingleton(() => FetchprofileUsecase(repository: sl()));
+  sl.registerLazySingleton(() => UpdateprofileUsecase(repository: sl()));
+  sl.registerLazySingleton<ProfileRepository>(
+    () => ProfileRepositoryImpl(sl()),
+  );
+  sl.registerLazySingleton<ProfileDataSource>(
+    () => ProfileRemoteDataSourceImpl(supabaseClient: sl()),
   );
 
   // Supabase
