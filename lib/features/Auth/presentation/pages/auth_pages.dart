@@ -1,10 +1,12 @@
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:choach_debate/core/router/app_router_enum.dart';
 import 'package:choach_debate/features/Auth/presentation/bloc/auth_bloc.dart';
 import 'package:choach_debate/features/Auth/presentation/widgets/auth_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:liquid_glass_renderer/liquid_glass_renderer.dart';
 
 class AuthPages extends StatefulWidget {
@@ -59,6 +61,9 @@ class _AuthPagesState extends State<AuthPages> {
             ).showSnackBar(SnackBar(content: Text(state.message)));
           }
           if (state is Authenticated) {
+            print(AppRouterEnum.homeScreen.path);
+            context.goNamed(AppRouterEnum.homeScreen.name);
+
             print(
               "User authenticated: ${state.user.email} sudah berhasil tinggal navigasi",
             );
@@ -161,7 +166,6 @@ class _AuthPagesState extends State<AuthPages> {
                                         password: _passwordController.text,
                                       ),
                                     );
-                                    print("Tombol Login ditekan");
                                   } else {
                                     // Validasi signup
                                     if (_usernameController.text.isEmpty ||

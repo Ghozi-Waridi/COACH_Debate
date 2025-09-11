@@ -22,8 +22,6 @@ extension AppRouterEnumExtension on AppRouterEnum {
         return 'profileScreen';
       case AppRouterEnum.analiticsScreen:
         return 'analiticsScreen';
-      default:
-        return 'unknown';
     }
   }
 
