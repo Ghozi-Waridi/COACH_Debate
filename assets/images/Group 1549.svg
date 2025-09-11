@@ -1,0 +1,123 @@
+<svg width="641" height="385" viewBox="0 0 641 385" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_2704_519)">
+<path d="M511.885 256.115L639.885 255.885L640.115 383.885L512.115 384.115L511.885 256.115Z" fill="#C6F2E8"/>
+<path d="M512.115 384.115C582.808 383.988 640.012 326.577 639.885 255.885L511.885 256.115L512.115 384.115Z" fill="#3555FF"/>
+</g>
+<g clip-path="url(#clip1_2704_519)">
+<path d="M128 256H256V384H128V256Z" fill="#C6F2E8"/>
+<path d="M256 320C256 355.346 227.346 384 192 384C156.654 384 128 355.346 128 320C128 284.654 156.654 256 192 256C227.346 256 256 284.654 256 320Z" fill="#FF8D24"/>
+</g>
+<g clip-path="url(#clip2_2704_519)">
+<path d="M0 256H128V384H0V256Z" fill="#C6F2E8"/>
+<path d="M-nan -nanL0 320C35.3462 320 64 348.654 64 384L-nan -nanL64 384L-nan -nanL64 384C28.6538 384 -1.54503e-06 355.346 0 320L-nan -nanL0 320L-nan -nanZ" fill="#FF8D24"/>
+<path d="M-nan -nanL64 320C64 284.654 35.3462 256 0 256L-nan -nanL0 256L-nan -nanL0 256C3.09006e-06 291.346 28.6538 320 64 320L-nan -nanL64 320L-nan -nanZ" fill="#16A256"/>
+<path d="M-nan -nanL64 320C64 355.346 92.6538 384 128 384L-nan -nanL128 384L-nan -nanL128 384C128 348.654 99.3462 320 64 320L-nan -nanL64 320L-nan -nanZ" fill="#16A256"/>
+<path d="M-nan -nanL128 320C92.6538 320 64 291.346 64 256L-nan -nanL64 256L-nan -nanL64 256C99.3462 256 128 284.654 128 320L-nan -nanL128 320L-nan -nanZ" fill="#FF8D24"/>
+</g>
+<g clip-path="url(#clip3_2704_519)">
+<path d="M256 256H384V384H256V256Z" fill="#C6F2E8"/>
+<path d="M384 384V256C313.308 256 256 313.308 256 384H384Z" fill="#BFB23B"/>
+<path d="M384 296.022V384H294C294 335.399 333.399 296 382 296C382.668 296 383.335 296.007 384 296.022Z" fill="#C6F2E8"/>
+<path d="M384 336.179V384H336.179C336.061 382.683 336 381.348 336 380C336 355.699 355.699 336 380 336C381.348 336 382.683 336.061 384 336.179Z" fill="#16A256"/>
+</g>
+<g clip-path="url(#clip4_2704_519)">
+<path d="M384 256H512V384H384V256Z" fill="#C6F2E8"/>
+<path d="M464 256H384L512 384V304C485.49 304 464 282.51 464 256Z" fill="#173E37"/>
+</g>
+<g clip-path="url(#clip5_2704_519)">
+<path d="M256 0H384V128H256V0Z" fill="#3555FF"/>
+<path d="M368 64C368 90.5097 346.51 112 320 112C293.49 112 272 90.5097 272 64C272 37.4903 293.49 16 320 16C346.51 16 368 37.4903 368 64Z" fill="#C6F2E8"/>
+<path d="M336 64C336 72.8366 328.837 80 320 80C311.163 80 304 72.8366 304 64C304 55.1634 311.163 48 320 48C328.837 48 336 55.1634 336 64Z" fill="#FF8D24"/>
+</g>
+<g clip-path="url(#clip6_2704_519)">
+<path d="M384 0H512V128H384V0Z" fill="#C6F2E8"/>
+<path d="M384 48C410.51 48 432 26.5097 432 0H512L384 128V48Z" fill="#FF8D24"/>
+</g>
+<g clip-path="url(#clip7_2704_519)">
+<path d="M512 0H640V128H512V0Z" fill="#C6F2E8"/>
+<path d="M512 64C512 99.3462 540.654 128 576 128H640V64C640 28.6538 611.346 0 576 0C540.654 0 512 28.6538 512 64Z" fill="#BFB23B"/>
+</g>
+<g clip-path="url(#clip8_2704_519)">
+<path d="M256 128H384V256H256V128Z" fill="#C6F2E8"/>
+<path d="M384 176V256H256V128H336C336 154.51 357.49 176 384 176Z" fill="#48CBC3"/>
+</g>
+<g clip-path="url(#clip9_2704_519)">
+<path d="M384 128H512V256H384V128Z" fill="#C6F2E8"/>
+<path d="M448 192C448 227.346 476.654 256 512 256V128C476.654 128 448 156.654 448 192Z" fill="#3555FF"/>
+<path d="M448 192C448 156.654 419.346 128 384 128L384 256C419.346 256 448 227.346 448 192Z" fill="#3555FF"/>
+</g>
+<g clip-path="url(#clip10_2704_519)">
+<path d="M512 128H640V256H512V128Z" fill="#C6F2E8"/>
+<path d="M564 256L564 128L588 128L588 256L564 256Z" fill="#FF8D24"/>
+<path d="M616 256L616 128L640 128L640 256L616 256Z" fill="#16A256"/>
+<path d="M512 256L512 128L536 128L536 256L512 256Z" fill="#BFB23B"/>
+<path d="M512 128H640V256H512V128Z" fill="white"/>
+<path d="M564 256L564 128L588 128L588 256L564 256Z" fill="black"/>
+<path d="M616 256L616 128L640 128L640 256L616 256Z" fill="black"/>
+<path d="M512 256L512 128L536 128L536 256L512 256Z" fill="black"/>
+</g>
+<g clip-path="url(#clip11_2704_519)">
+<path d="M128 0H256V128H128V0Z" fill="#C6F2E8"/>
+<path d="M192 128C227.346 128 256 99.3462 256 64L216 64C216 77.2548 205.255 88 192 88C178.745 88 168 77.2548 168 64L128 64C128 99.3462 156.654 128 192 128Z" fill="#173E37"/>
+</g>
+<g clip-path="url(#clip12_2704_519)">
+<path d="M128 128H256V256H128V128Z" fill="#C6F2E8"/>
+<path d="M256 192C256 227.346 227.346 256 192 256C156.654 256 128 227.346 128 192C128 156.654 156.654 128 192 128C227.346 128 256 156.654 256 192Z" fill="#48CBC3"/>
+<path d="M232 192C232 214.091 214.091 232 192 232C169.909 232 152 214.091 152 192C152 169.909 169.909 152 192 152C214.091 152 232 169.909 232 192Z" fill="#C6F2E8"/>
+</g>
+<g clip-path="url(#clip13_2704_519)">
+<path d="M0 0H128V128H0V0Z" fill="#C6F2E8"/>
+<path d="M0 128H128L0 0V128Z" fill="#BFB23B"/>
+</g>
+<g clip-path="url(#clip14_2704_519)">
+<path d="M0 128H128V256H0V128Z" fill="#C6F2E8"/>
+<path d="M-nan -nanL128 128C128 198.692 70.6924 256 0 256L-nan -nanL0 256L-nan -nanL0 256C0 185.308 57.3076 128 128 128L-nan -nanL128 128L-nan -nanZ" fill="#3555FF"/>
+</g>
+<defs>
+<clipPath id="clip0_2704_519">
+<rect width="128" height="128" fill="white" transform="translate(512.115 384.115) rotate(-90.1031)"/>
+</clipPath>
+<clipPath id="clip1_2704_519">
+<rect width="128" height="128" fill="white" transform="translate(128 256)"/>
+</clipPath>
+<clipPath id="clip2_2704_519">
+<rect width="128" height="128" fill="white" transform="translate(0 256)"/>
+</clipPath>
+<clipPath id="clip3_2704_519">
+<rect width="128" height="128" fill="white" transform="translate(256 256)"/>
+</clipPath>
+<clipPath id="clip4_2704_519">
+<rect width="128" height="128" fill="white" transform="translate(384 256)"/>
+</clipPath>
+<clipPath id="clip5_2704_519">
+<rect width="128" height="128" fill="white" transform="translate(256)"/>
+</clipPath>
+<clipPath id="clip6_2704_519">
+<rect width="128" height="128" fill="white" transform="translate(384)"/>
+</clipPath>
+<clipPath id="clip7_2704_519">
+<rect width="128" height="128" fill="white" transform="translate(512)"/>
+</clipPath>
+<clipPath id="clip8_2704_519">
+<rect width="128" height="128" fill="white" transform="translate(256 128)"/>
+</clipPath>
+<clipPath id="clip9_2704_519">
+<rect width="128" height="128" fill="white" transform="translate(384 128)"/>
+</clipPath>
+<clipPath id="clip10_2704_519">
+<rect width="128" height="128" fill="white" transform="translate(512 128)"/>
+</clipPath>
+<clipPath id="clip11_2704_519">
+<rect width="128" height="128" fill="white" transform="translate(128)"/>
+</clipPath>
+<clipPath id="clip12_2704_519">
+<rect width="128" height="128" fill="white" transform="translate(128 128)"/>
+</clipPath>
+<clipPath id="clip13_2704_519">
+<rect width="128" height="128" fill="white"/>
+</clipPath>
+<clipPath id="clip14_2704_519">
+<rect width="128" height="128" fill="white" transform="translate(0 128)"/>
+</clipPath>
+</defs>
+</svg>

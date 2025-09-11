@@ -1,9 +1,8 @@
-import 'package:choach_debate/features/Auth/data/models/auth_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class AuthRemoteDataSource {
   Future<User> signIn(String email, String password);
-  Future<User> signUp(String email, String password);
+  Future<User> signUp(String email, String password, Map<String, dynamic> user);
   Future<void> signOut();
   Future<bool> isSignedIn();
   Future<User> getCurrentUserId();
@@ -51,11 +50,16 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<User> signUp(String email, String password) async {
+  Future<User> signUp(
+    String email,
+    String password,
+    Map<String, dynamic> user,
+  ) async {
     try {
       final response = await supabaseClient.auth.signUp(
         email: email,
         password: password,
+        data: user,
       );
       return response.user!;
     } catch (e) {

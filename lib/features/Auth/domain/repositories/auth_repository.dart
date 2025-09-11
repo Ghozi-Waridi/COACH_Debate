@@ -11,6 +11,7 @@ abstract class AuthRepository {
   Future<Either<Failure, User>> signUpWithEmailPassword(
     String email,
     String password,
+    Map<String, dynamic> user,
   );
   Future<Either<Failure, void>> signOut();
   Future<Either<Failure, User?>> getCurrentUser();
