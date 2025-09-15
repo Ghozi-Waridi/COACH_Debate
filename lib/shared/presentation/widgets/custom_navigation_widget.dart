@@ -20,7 +20,7 @@ class CustomNavigationWidget extends StatelessWidget {
       margin: EdgeInsets.all(16.0),
 
       child: LiquidGlass(
-        shape: LiquidRoundedSuperellipse(borderRadius: Radius.circular(50.0)),
+        shape: LiquidRoundedSuperellipse(borderRadius: Radius.circular(30.0)),
         settings: LiquidGlassSettings(
           thickness: 12,
           lightAngle: 0.5 * pi,

@@ -1,12 +1,51 @@
 class ApiConfig {
-  static const String _debugBaseUrl = "http://192.168.18.105:8000";
-  static const String _releaseBaseUrl = "https://your-production-server.com";
+  /// ==================
+  /// API untuk Groq LLM
+  /// ==================
+  static const String _urlGroqAPI = "http://192.168.9.199:8000";
+  static String get chatEndpoint => "$_urlGroqAPI/api/chat/";
+  static String get topicsEndpoint => "$_urlGroqAPI/api/topics/";
 
-  static String get baseUrl {
-    const bool isDebugMode = bool.fromEnvironment('dart.vm.product') == false;
-    return isDebugMode ? _debugBaseUrl : _releaseBaseUrl;
+  /// ================
+  /// API Keys NewsAPI
+  /// ================
+  static const String APIKEY = "417ec91627b4457ba4d2a1aa7433f968";
+
+  /// ================
+  /// Base URL NewsAPI
+  /// ================
+  static const String _urlNewsAPI = "https://newsapi.org/v2";
+  static String get topicsNewsEndpoint => "$_urlNewsAPI/everything?";
+
+  /// ===========================
+  /// Methode untuk membuat panggilan
+  /// API lengkap ke API Public 'https://newsapi.org/'
+  /// ===========================
+  ///
+  /// [q] = kata kunci pencarian berita
+  /// [from] = tanggal mulai pencarian berita (format: YYYY-MM-DD)
+  /// [to] = tanggal akhir pencarian berita (format: YYYY-MM-DD)
+  /// [language] = filter berdasarkan bahasa (contoh: 'en' untuk bahasa Inggris, 'id' untuk bahasa Indonesia)
+
+  static String getNewsAPIurl({
+    String? q,
+    String? from,
+    String? to,
+    String language = "id",
+    int pageSize = 10,
+    int page = 1,
+  }) {
+    final uri = Uri.parse(topicsNewsEndpoint).replace(
+      queryParameters: {
+        'q': q,
+        'from': from,
+        'to': to,
+        'language': language,
+        'pageSize': pageSize.toString(),
+        'page': page.toString(),
+        'apiKey': APIKEY,
+      }..removeWhere((key, value) => value == null),
+    );
+    return uri.toString();
   }
-
-  static String get chatEndpoint => "$baseUrl/api/chat/";
-  static String get topicsEndpoint => "$baseUrl/api/topics/";
 }

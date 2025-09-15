@@ -23,4 +23,24 @@ class TopicDatasourceImpl implements TopicDatasource {
       throw Exception("Error fetching topics: $e");
     }
   }
+
+  // @override
+  // Future<List<TopicModel>> getTopics() async {
+  //   try {
+  //     final response = await dio.get(
+  //       ApiConfig.getNewsAPIurl(
+  //         q: "ekonomi",
+  //         from: "2024-06-01",
+  //         to: "2024-06-30",
+  //       ),
+  //     );
+  //     if (response.statusCode == 200) {
+  //       return TopicModel.fromJsonList(response.data);
+  //     } else {
+  //       throw Exception("Gagal mendapatkan data topik");
+  //     }
+  //   } catch (e) {
+  //     throw Exception("Error fetching topics: $e");
+  //   }
+  // }
 }

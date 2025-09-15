@@ -27,10 +27,7 @@ class AppRouter {
     debugLabel: 'ANALIS',
   );
 
-  /* GoRouter => Package dari luar Pub.dev
-  * 
-  *
-  **/
+  ///
   static GoRouter router = GoRouter(
     refreshListenable: GoRouterRefreshStream(sl<AuthBloc>().stream),
     navigatorKey: _rootNavigatorKey,
