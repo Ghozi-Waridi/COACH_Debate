@@ -10,30 +10,10 @@ abstract class TopicDatasource {
 class TopicDatasourceImpl implements TopicDatasource {
   final Dio dio;
   TopicDatasourceImpl({required this.dio});
-  @override
-  Future<List<TopicModel>> getTopics() async {
-    try {
-      final response = await dio.get(ApiConfig.topicsEndpoint);
-      if (response.statusCode == 200) {
-        return TopicModel.fromJsonList(response.data);
-      } else {
-        throw Exception("Gagal mendapatkan data topik");
-      }
-    } catch (e) {
-      throw Exception("Error fetching topics: $e");
-    }
-  }
-
   // @override
   // Future<List<TopicModel>> getTopics() async {
   //   try {
-  //     final response = await dio.get(
-  //       ApiConfig.getNewsAPIurl(
-  //         q: "ekonomi",
-  //         from: "2024-06-01",
-  //         to: "2024-06-30",
-  //       ),
-  //     );
+  //     final response = await dio.get(ApiConfig.topicsEndpoint);
   //     if (response.statusCode == 200) {
   //       return TopicModel.fromJsonList(response.data);
   //     } else {
@@ -43,4 +23,21 @@ class TopicDatasourceImpl implements TopicDatasource {
   //     throw Exception("Error fetching topics: $e");
   //   }
   // }
+
+  @override
+  Future<List<TopicEntity>> getTopics() async {
+    try {
+      final response = await dio.get(ApiConfig.getNewsAPIurl(q: "ekonomi"));
+      print("Data Topics : ${response.data["articles"]}");
+      if (response.statusCode == 200) {
+        // Pastikan fromJsonList mengembalikan List<TopicModel> dan TopicModel extends TopicEntity
+        final models = TopicModel.fromJsonList(response.data["articles"]);
+        return models.cast<TopicEntity>();
+      } else {
+        throw Exception("Gagal mendapatkan data topik");
+      }
+    } catch (e) {
+      throw Exception("Error fetching topics: $e");
+    }
+  }
 }

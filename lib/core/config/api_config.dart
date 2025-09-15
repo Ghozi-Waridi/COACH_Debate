@@ -46,6 +46,7 @@ class ApiConfig {
         'apiKey': APIKEY,
       }..removeWhere((key, value) => value == null),
     );
+    print("Generated NewsAPI URL: ${uri.toString()}");
     return uri.toString();
   }
 }
