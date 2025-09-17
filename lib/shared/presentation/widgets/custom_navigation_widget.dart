@@ -18,7 +18,6 @@ class CustomNavigationWidget extends StatelessWidget {
     final int currentIndex = navigationShell.currentIndex;
     return Container(
       margin: EdgeInsets.all(16.0),
-
       child: LiquidGlass(
         shape: LiquidRoundedSuperellipse(borderRadius: Radius.circular(30.0)),
         settings: LiquidGlassSettings(
@@ -29,40 +28,49 @@ class CustomNavigationWidget extends StatelessWidget {
           lightIntensity: 1.2,
         ),
 
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: BottomNavigationBar(
-            iconSize: 28,
-            selectedItemColor: Colors.white,
-            unselectedItemColor: Colors.grey,
-            showSelectedLabels: true,
-            showUnselectedLabels: true,
-            backgroundColor: Colors.transparent,
-            currentIndex: currentIndex,
-            selectedLabelStyle: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-            ),
-            unselectedLabelStyle: const TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w400,
-            ),
-            onTap: (index) {
-              goToBranch(index);
-            },
-            items: [
-              _bottomNavigationBarItem('Home', Icons.home, currentIndex == 0),
-              _bottomNavigationBarItem(
-                'Analis',
-                Icons.newspaper,
-                currentIndex == 1,
+        child: ClipRRect(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: BottomNavigationBar(
+                iconSize: 28,
+                selectedItemColor: Colors.white,
+                unselectedItemColor: Colors.grey,
+                showSelectedLabels: true,
+                showUnselectedLabels: true,
+                backgroundColor: Colors.transparent,
+                currentIndex: currentIndex,
+                selectedLabelStyle: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+                unselectedLabelStyle: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                ),
+                onTap: (index) {
+                  goToBranch(index);
+                },
+                items: [
+                  _bottomNavigationBarItem(
+                    'Home',
+                    Icons.home,
+                    currentIndex == 0,
+                  ),
+                  _bottomNavigationBarItem(
+                    'Analis',
+                    Icons.newspaper,
+                    currentIndex == 1,
+                  ),
+                  _bottomNavigationBarItem(
+                    'Profile',
+                    Icons.person,
+                    currentIndex == 2,
+                  ),
+                ],
               ),
-              _bottomNavigationBarItem(
-                'Profile',
-                Icons.person,
-                currentIndex == 2,
-              ),
-            ],
+            ),
           ),
         ),
       ),

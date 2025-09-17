@@ -25,13 +25,12 @@ class HomePage extends StatelessWidget {
             ),
           ),
 
-          Positioned.fill(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-              child: Container(color: Colors.black.withOpacity(0.4)),
-            ),
-          ),
-
+          // Positioned.fill(
+          //   child: BackdropFilter(
+          //     filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+          //     child: Container(color: Colors.black.withOpacity(0.4)),
+          //   ),
+          // ),
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

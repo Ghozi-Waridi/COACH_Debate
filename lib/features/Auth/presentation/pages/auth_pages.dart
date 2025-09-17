@@ -72,8 +72,8 @@ class _AuthPagesState extends State<AuthPages> {
         child: Stack(
           children: [
             Positioned.fill(
-              child: Image.network(
-                'https://picsum.photos/id/1084/800/1200',
+              child: Image.asset(
+                'assets/images/background.png',
                 fit: BoxFit.cover,
               ),
             ),

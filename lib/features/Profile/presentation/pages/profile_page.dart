@@ -14,7 +14,7 @@ class ProfilePage extends StatefulWidget {
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
- 
+
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
@@ -32,13 +32,13 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
 
-          Positioned.fill(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
-              child: Container(color: Colors.black.withOpacity(0.4)),
-            ),
-          ),
-
+          //
+          // Positioned.fill(
+          //   child: BackdropFilter(
+          //     filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+          //     child: Container(color: Colors.black.withOpacity(0.4)),
+          //   ),
+          // ),
           SafeArea(
             child: BlocBuilder<ProfileBloc, ProfileState>(
               builder: (context, state) {
@@ -119,7 +119,6 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                             ),
                             const SizedBox(height: 24),
-                            
 
                             // Settings Card
                             LiquidGlass(

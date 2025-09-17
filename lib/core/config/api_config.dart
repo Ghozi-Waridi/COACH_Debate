@@ -2,7 +2,8 @@ class ApiConfig {
   /// ==================
   /// API untuk Groq LLM
   /// ==================
-  static const String _urlGroqAPI = "http://192.168.9.199:8000";
+  static const String _urlGroqAPI =
+      "https://django-backend-debate-app.vercel.app";
   static String get chatEndpoint => "$_urlGroqAPI/api/chat/";
   static String get topicsEndpoint => "$_urlGroqAPI/api/topics/";
 
@@ -23,7 +24,7 @@ class ApiConfig {
   /// ===========================
   ///
   /// [q] = kata kunci pencarian berita
-  /// [from] = tanggal mulai pencarian berita (format: YYYY-MM-DD)
+  /// [from  = tanggal mulai pencarian berita (format: YYYY-MM-DD)
   /// [to] = tanggal akhir pencarian berita (format: YYYY-MM-DD)
   /// [language] = filter berdasarkan bahasa (contoh: 'en' untuk bahasa Inggris, 'id' untuk bahasa Indonesia)
 
@@ -46,7 +47,6 @@ class ApiConfig {
         'apiKey': APIKEY,
       }..removeWhere((key, value) => value == null),
     );
-    print("Generated NewsAPI URL: ${uri.toString()}");
     return uri.toString();
   }
 }
