@@ -6,8 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'features/Auth/presentation/pages/auth_pages.dart';
-import 'features/Home/presentation/pages/home_page.dart';
+
 import 'package:flutter/services.dart';
 import 'package:choach_debate/core/router/app_router.dart';
 
@@ -47,7 +46,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        // home: HomePage(),
+      
         routerConfig: AppRouter.router,
       ),
     );

@@ -1,3 +1,6 @@
+import 'package:choach_debate/core/theme/color.dart';
+import 'package:choach_debate/features/Analis/presentation/widgets/card_item_widget.dart';
+import 'package:choach_debate/features/Analis/presentation/widgets/card_session_widget.dart';
 import 'package:flutter/material.dart';
 
 class AnalisPage extends StatelessWidget {
@@ -5,55 +8,157 @@ class AnalisPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          title: const Text('Home Page'),
-          backgroundColor: Colors.transparent,
-          elevation: 0,
+    return Scaffold(
+      backgroundColor: AppColor.background,
+      appBar: AppBar(
+        title: Text(
+          'Analisis Debat',
+          style: TextStyle(
+            color: AppColor.blueDark,
+            fontWeight: FontWeight.bold,
+          ),
         ),
-
-        body: Stack(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        centerTitle: true,
+        iconTheme: IconThemeData(color: AppColor.blueDark),
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Positioned.fill(
-              child: Image.network(
-                'https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80',
-                fit: BoxFit.cover,
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 15,
+                    offset: const Offset(0, 5),
+                  ),
+                ],
               ),
-            ),
-
-            Positioned.fill(
-              child: Container(color: Colors.black.withOpacity(0.4)),
-            ),
-
-            Center(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    'Selamat Datang Ghozi',
+                  CircleAvatar(
+                    radius: 40,
+                    backgroundColor: AppColor.accent.withOpacity(0.1),
+                    child: Icon(
+                      Icons.analytics,
+                      size: 40,
+                      color: AppColor.accent,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'Analisis Performa Debat',
                     style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 28,
+                      color: AppColor.blueDark,
+                      fontSize: 22,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   const SizedBox(height: 8),
-                  const Text(
-                    'Mari Kita Mulai Debat',
-                    style: TextStyle(color: Colors.white70, fontSize: 18),
-                  ),
-                  const SizedBox(height: 40),
-                  InkWell(
-                    onTap: () {
-                      // Aksi ketika lingkaran ditekan
-                    },
-                    child: const CircleAvatar(
-                      radius: 50, // Perbesar ukuran
-                      backgroundColor: Colors.green,
-                      child: Icon(Icons.mic, color: Colors.white, size: 50),
+                  Text(
+                    'Tinjau dan tingkatkan kemampuan debat Anda',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: AppColor.blueDark.withOpacity(0.7),
+                      fontSize: 16,
                     ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 24),
+
+            Text(
+              'Ringkasan Statistik',
+              style: TextStyle(
+                color: AppColor.blueDark,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 16),
+
+            Row(
+              children: [
+                Expanded(
+                  child: CardItemWidget(
+                    title: 'Sesi Selesai',
+                    value: '12',
+                    icon: Icons.assignment_turned_in,
+                    color: AppColor.accent,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: CardItemWidget(
+                    title: 'Skor Rata-rata',
+                    value: '8.2',
+                    icon: Icons.star,
+                    color: AppColor.purpleLight,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                Expanded(
+                  child: CardItemWidget(
+                    title: 'Topik Dikuasai',
+                    value: '5',
+                    icon: Icons.emoji_events,
+                    color: AppColor.blueDark,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: CardItemWidget(
+                    title: 'Waktu Total',
+                    value: '6h 30m',
+                    icon: Icons.timer,
+                    color: Colors.green,
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 24),
+
+            Text(
+              'Sesi Terbaru',
+              style: TextStyle(
+                color: AppColor.blueDark,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 12),
+
+            Container(
+              height: 400,
+              child: ListView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                children: [
+                  CardSessionWidget(
+                    topic: 'Debat Politik - Isu Kebijakan Luar Negeri',
+                    score: '8.5',
+                    duration: '30 menit',
+                    date: DateTime.now().subtract(const Duration(days: 1)),
+                  ),
+                  CardSessionWidget(
+                    topic: 'Isu Lingkungan - Perubahan Iklim Global',
+                    score: '7.8',
+                    duration: '25 menit',
+                    date: DateTime.now().subtract(const Duration(days: 3)),
                   ),
                 ],
               ),

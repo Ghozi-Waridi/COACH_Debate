@@ -23,50 +23,79 @@ class _MessageInputWidgetState extends State<MessageInputWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(top: 20, left: 12, right: 12),
       decoration: BoxDecoration(
-        color: AppColor.background,
-        border: Border(top: BorderSide(color: AppColor.accent)),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(25),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.15),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
+          ),
+        ],
+        border: Border.all(
+          color: AppColor.background.withOpacity(0.3),
+          width: 1.5,
+        ),
       ),
-      child: SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            IconButton(
-              onPressed: widget.onMicPressed,
-
-              icon: Icon(
-                Icons.mic,
-                color: widget.isListening ? Colors.amber : Colors.white,
+            // Mic Button dengan warna yang jelas
+            Container(
+              decoration: BoxDecoration(
+                color: widget.isListening ? Colors.red : AppColor.accent,
+                shape: BoxShape.circle,
+              ),
+              child: IconButton(
+                onPressed: widget.onMicPressed,
+                icon: Icon(
+                  widget.isListening ? Icons.mic_off : Icons.mic,
+                  color: Colors.white,
+                  size: 20,
+                ),
+                padding: const EdgeInsets.all(10),
               ),
             ),
+            
+            const SizedBox(width: 12),
+            
+            // Text Field
             Expanded(
               child: TextField(
                 controller: widget.textController,
-                style: const TextStyle(color: Colors.white),
-                cursorColor: Colors.white,
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(horizontal: 18),
-                  hintText: 'Ketik Argument Anda...',
-                  hintStyle: const TextStyle(color: Colors.white70),
-                  filled: true,
-                  fillColor: AppColor.accent,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(50),
-                    borderSide: BorderSide.none,
-                  ),
+                style: TextStyle(
+                  color: AppColor.blueDark,
+                  fontSize: 16,
                 ),
-                onSubmitted: (_) => widget.sendMessage,
+                cursorColor: AppColor.accent,
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                  hintText: 'Ketik Argument Anda...',
+                  hintStyle: TextStyle(
+                    color: AppColor.blueDark.withOpacity(0.5),
+                  ),
+                  border: InputBorder.none,
+                  filled: false,
+                ),
+                onSubmitted: (_) => widget.sendMessage(),
               ),
             ),
+            
             const SizedBox(width: 8),
-            IconButton(
-              style: IconButton.styleFrom(
-                backgroundColor: AppColor.purpleLight,
+            
+            // Send Button
+            Container(
+              decoration: BoxDecoration(
+                color: AppColor.purpleLight,
+                shape: BoxShape.circle,
               ),
-              icon: const Icon(Icons.send, color: Colors.white),
-              onPressed: widget.sendMessage,
+              child: IconButton(
+                icon: const Icon(Icons.send, color: Colors.white),
+                onPressed: widget.sendMessage,
+                padding: const EdgeInsets.all(10),
+              ),
             ),
           ],
         ),
