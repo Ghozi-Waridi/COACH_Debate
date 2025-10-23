@@ -36,3 +36,4 @@ class _NavigationPageState extends State<NavigationPage> {
     );
   }
 }
+

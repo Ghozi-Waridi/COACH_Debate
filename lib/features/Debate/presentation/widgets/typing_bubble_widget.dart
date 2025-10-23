@@ -45,7 +45,7 @@ class _TypingBubbleState extends State<TypingBubble>
           width: 8,
           height: 8,
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.95),
+            color: AppColor.blueDark.withOpacity(0.7),
             shape: BoxShape.circle,
           ),
         ),
@@ -59,14 +59,25 @@ class _TypingBubbleState extends State<TypingBubble>
       alignment: Alignment.centerLeft,
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
-          color: AppColor.accent,
+          color: Colors.white,
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(8),
-            topRight: Radius.circular(30),
-            bottomLeft: Radius.circular(30),
-            bottomRight: Radius.circular(30),
+            topRight: Radius.circular(20),
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
+          border: Border.all(
+            color: AppColor.background.withOpacity(0.3),
+            width: 1,
           ),
         ),
         child: AnimatedBuilder(

@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:choach_debate/core/theme/color.dart';
 import 'package:choach_debate/features/Debate/domain/entities/chat_entity.dart';
 import 'package:choach_debate/features/Debate/presentation/bloc/debate_bloc.dart';
@@ -20,7 +21,8 @@ class ChatPage extends StatefulWidget {
   State<ChatPage> createState() => _ChatPageState();
 }
 
-class _ChatPageState extends State<ChatPage> {
+class _ChatPageState extends State<ChatPage>
+    with SingleTickerProviderStateMixin {
   final TextEditingController _textCtrl = TextEditingController();
   final ScrollController _scrollCtrl = ScrollController();
   late SpeechToText _speechToText;
@@ -48,27 +50,20 @@ class _ChatPageState extends State<ChatPage> {
     super.dispose();
   }
 
-  // Text To Speech
   Future<void> _initTextToSpeech() async {
     await _flutterTts.setLanguage("id-ID");
     await _flutterTts.setPitch(1.0);
     await _flutterTts.setSpeechRate(0.5);
-    await _flutterTts.setVolume(
-      1.0,
-    ); // Volume 2.0 mungkin terlalu tinggi, 1.0 adalah maksimal normal
+    await _flutterTts.setVolume(1.0);
   }
 
   void _speak(String text) async {
-    await _flutterTts
-        .stop(); // Hentikan suara sebelumnya sebelum memulai yang baru
+    await _flutterTts.stop();
     await _flutterTts.speak(text);
   }
 
-  void _stop() async {
-    await _flutterTts.stop();
-  }
+  void _stop() async => await _flutterTts.stop();
 
-  // Speech To Text
   void _initSpeech() async {
     _speechEnabled = await _speechToText.initialize();
     setState(() {});
@@ -76,7 +71,7 @@ class _ChatPageState extends State<ChatPage> {
 
   void _startListening() async {
     if (!_speechEnabled) return;
-    _stop(); // MODIFIKASI: Hentikan TTS jika sedang berbicara saat user mulai merekam suara
+    _stop();
     setState(() => _isUserStopped = false);
     _textCtrl.clear();
     await _speechToText.listen(
@@ -104,7 +99,7 @@ class _ChatPageState extends State<ChatPage> {
     final text = _textCtrl.text.trim();
     if (text.isEmpty) return;
 
-    _stop(); // MODIFIKASI: Hentikan suara AI jika user mengirim pesan
+    _stop();
     final bloc = context.read<DebateBloc>();
     if (bloc.currentSessionId == 0) {
       bloc.add(
@@ -118,10 +113,7 @@ class _ChatPageState extends State<ChatPage> {
       bloc.add(SendMessageEvent(text));
     }
     _textCtrl.clear();
-    // Setelah mengirim, pastikan speech-to-text berhenti jika masih aktif
-    if (!_isUserStopped) {
-      _stopListening();
-    }
+    if (!_isUserStopped) _stopListening();
   }
 
   void _scrollToBottom({bool animated = true}) {
@@ -131,8 +123,8 @@ class _ChatPageState extends State<ChatPage> {
       if (animated) {
         _scrollCtrl.animateTo(
           offset,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOut,
+          duration: const Duration(milliseconds: 400),
+          curve: Curves.easeOutCubic,
         );
       } else {
         _scrollCtrl.jumpTo(offset);
@@ -145,52 +137,93 @@ class _ChatPageState extends State<ChatPage> {
     return Scaffold(
       backgroundColor: AppColor.background,
       appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 4,
+        shadowColor: Colors.black.withOpacity(0.15),
         centerTitle: true,
-        backgroundColor: AppColor.background,
-        elevation: 0,
-        title: const Text("Debate Room", style: TextStyle(color: Colors.white)),
-        iconTheme: const IconThemeData(color: Colors.white),
+        title: Column(
+          children: [
+            Text(
+              "Debate Room",
+              style: TextStyle(
+                color: AppColor.blueDark,
+                fontWeight: FontWeight.w700,
+                fontSize: 20,
+                letterSpacing: -0.5,
+              ),
+            ),
+            const SizedBox(height: 2),
+            Text(
+              "${widget.topic} • ${widget.role}",
+              style: TextStyle(
+                color: AppColor.blueDark.withOpacity(0.8),
+                fontWeight: FontWeight.w500,
+                fontSize: 13,
+              ),
+            ),
+          ],
+        ),
         leading: IconButton(
+          icon: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: AppColor.accent.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(
+              Icons.arrow_back_ios_new_rounded,
+              color: AppColor.accent,
+              size: 18,
+            ),
+          ),
           onPressed: () async {
-            // MODIFIKASI: Hentikan semua audio sebelum keluar dari halaman
             _stop();
             await _speechToText.stop();
-
             FocusScope.of(context).unfocus();
             await Future<void>.delayed(const Duration(milliseconds: 20));
             if (context.mounted) Navigator.of(context).pop();
           },
-          icon: const Icon(Icons.arrow_back_ios_new_rounded),
         ),
+        actions: [
+          IconButton(
+            icon: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: AppColor.accent.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(
+                Icons.more_vert_rounded,
+                color: AppColor.accent,
+                size: 18,
+              ),
+            ),
+            onPressed: () {},
+          ),
+        ],
       ),
       body: Column(
         children: [
           Expanded(
             child: BlocConsumer<DebateBloc, DebateState>(
               listener: (context, state) {
-                // MODIFIKASI: Logika untuk memutar suara dipindahkan ke sini
-                // Ini hanya akan berjalan sekali ketika state berubah ke DebatLoaded
                 if (state is DebatLoaded) {
                   final lastMessage = context
                       .read<DebateBloc>()
                       .messages
                       .lastOrNull;
-                  // Jika ada pesan terakhir dan itu dari asisten (AI)
                   if (lastMessage != null && lastMessage.role == 'assistant') {
                     _speak(lastMessage.content);
                   }
                 }
 
-                // Logika untuk auto-scroll
                 final bloc = context.read<DebateBloc>();
                 final hasTyping = state is DebateLoading;
                 final currentCount = bloc.messages.length + (hasTyping ? 1 : 0);
                 final increased = currentCount > _lastItemCount;
                 _lastItemCount = currentCount;
 
-                if (increased) {
-                  _scrollToBottom();
-                }
+                if (increased) _scrollToBottom();
               },
               builder: (context, state) {
                 final bloc = context.read<DebateBloc>();
@@ -209,47 +242,134 @@ class _ChatPageState extends State<ChatPage> {
 
                 if (state is DebateError) {
                   return Center(
-                    child: Text(
-                      state.message,
-                      style: const TextStyle(color: Colors.red),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 16,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.red.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          color: Colors.red.withOpacity(0.3),
+                          width: 1,
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.error_outline_rounded,
+                            color: Colors.red,
+                            size: 22,
+                          ),
+                          const SizedBox(width: 12),
+                          Text(
+                            state.message,
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 }
 
-                if (state is DebatLoaded ||
-                    state is DebateLoading ||
-                    bloc.messages.isNotEmpty) {
+                if (items.isNotEmpty) {
                   return ListView.builder(
                     controller: _scrollCtrl,
                     padding: const EdgeInsets.symmetric(
-                      vertical: 12,
-                      horizontal: 8,
+                      vertical: 16,
+                      horizontal: 20,
                     ),
                     itemCount: items.length,
                     itemBuilder: (context, i) {
                       final m = items[i];
                       if (m.content == '__typing__') {
-                        return const TypingBubble();
+                        return const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 8),
+                          child: TypingBubble(),
+                        );
                       }
-
-                      // DIHAPUS: Logika _speak() dan _stop() yang tadinya ada di sini, dihapus.
-                      // Blok if yang sebelumnya ada di sini adalah sumber masalah.
-
-                      return ChatBubbleWidget(message: m);
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: ChatBubbleWidget(message: m),
+                      );
                     },
                   );
                 }
 
-                // Initial state
-                return const Center(child: CircularProgressIndicator());
+                // Empty state
+                return Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 40),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 140,
+                          height: 140,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(28),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                blurRadius: 20,
+                                offset: const Offset(0, 8),
+                              ),
+                            ],
+                          ),
+                          child: Icon(
+                            Icons.forum_outlined,
+                            color: AppColor.accent,
+                            size: 50,
+                          ),
+                        ),
+                        const SizedBox(height: 32),
+                        Text(
+                          'Start the Debate',
+                          style: TextStyle(
+                            color: AppColor.blueDark,
+                            fontSize: 24,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        Text(
+                          'Send a message to begin your discussion\nabout ${widget.topic}',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: AppColor.blueDark.withOpacity(0.8),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            height: 1.5,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
               },
             ),
           ),
-          MessageInputWidget(
-            textController: _textCtrl,
-            sendMessage: _handleSend,
-            isListening: !_isUserStopped,
-            onMicPressed: _isUserStopped ? _startListening : _stopListening,
+
+          // Input area - menggunakan widget yang sudah diperbaiki
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
+              child: MessageInputWidget(
+                textController: _textCtrl,
+                sendMessage: _handleSend,
+                isListening: !_isUserStopped,
+                onMicPressed: _isUserStopped
+                    ? _startListening
+                    : _stopListening,
+              ),
+            ),
           ),
         ],
       ),

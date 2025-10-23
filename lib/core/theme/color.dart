@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AppColor {
-  static get background => Color(0xC6F2E8);
-  static get accent => Color(0x3555FF);
-  static get purpleLight => Color(0x48CBC3);
+  static get background => const Color(0xFFf7f5eb);
+  static get accent => const Color(0xFF0e4877);
+  static get purpleLight => const Color(0xFFff8225);
+  static get blueDark => const Color(0xFF10456c);
 }
