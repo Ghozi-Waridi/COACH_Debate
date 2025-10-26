@@ -13,3 +13,11 @@ class GetTopicsEvent extends TopicsEvent {
   @override
   List<Object> get props => [];
 }
+
+class GetCategoryTopicsEvent extends TopicsEvent {
+  final String category;
+  const GetCategoryTopicsEvent({required this.category});
+
+  @override
+  List<Object> get props => [category];
+}

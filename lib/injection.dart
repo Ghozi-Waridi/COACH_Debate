@@ -28,6 +28,7 @@ import 'package:choach_debate/features/Stt/presentation/bloc/stt_bloc.dart';
 import 'package:choach_debate/features/Topics/data/datasources/topic_datasource.dart';
 import 'package:choach_debate/features/Topics/data/repositories/topic_repository_impl.dart';
 import 'package:choach_debate/features/Topics/domain/repositories/topic_repository.dart';
+import 'package:choach_debate/features/Topics/domain/usecases/get_categori_usecase.dart';
 import 'package:choach_debate/features/Topics/domain/usecases/get_topic_usecase.dart';
 import 'package:choach_debate/features/Topics/presentation/bloc/topics_bloc.dart';
 import 'package:dio/dio.dart';
@@ -47,8 +48,9 @@ Future<void> init() async {
   sl.registerLazySingleton<ChatDatasource>(() => ChatDatasourceImpl(dio: sl()));
 
   // Topics
-  sl.registerFactory(() => TopicsBloc(getTopicUsecase: sl()));
+  sl.registerFactory(() => TopicsBloc(getTopicUsecase: sl(), getCategoriUsecase: sl()));
   sl.registerLazySingleton(() => GetTopicUsecase(repository: sl()));
+  sl.registerLazySingleton(() => GetCategoriUsecase(repository: sl()));
   sl.registerLazySingleton<TopicRepository>(
     () => TopicRepositoryImpl(topicDatasource: sl()),
   );

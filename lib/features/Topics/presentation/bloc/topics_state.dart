@@ -20,6 +20,15 @@ class GetTopicsState extends TopicsState {
   List<Object> get props => [topics];
 }
 
+class GetCategoriesState extends TopicsState {
+  final List<String> categories;
+
+  const GetCategoriesState({required this.categories});
+
+  @override
+  List<Object> get props => [categories];
+}
+
 class TopicsErrorState extends TopicsState {
   final String message;
 

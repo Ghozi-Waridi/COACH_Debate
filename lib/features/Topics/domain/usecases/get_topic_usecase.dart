@@ -6,7 +6,7 @@ class GetTopicUsecase {
 
   GetTopicUsecase({required this.repository});
 
-  Future<List<TopicEntity>> call() {
-    return repository.getTopics();
+  Future<List<TopicEntity>> call(String categori) {
+    return repository.getTopics(categori);
   }
 }

@@ -1,4 +1,4 @@
-import 'package:choach_debate/core/theme/color.dart';
+
 import 'package:flutter/material.dart';
 
 class CardRole extends StatefulWidget {

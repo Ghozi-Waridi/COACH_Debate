@@ -3,12 +3,25 @@ import 'package:choach_debate/features/Topics/domain/entities/topic_entity.dart'
 import 'package:choach_debate/features/Topics/domain/repositories/topic_repository.dart';
 
 class TopicRepositoryImpl implements TopicRepository {
+  
   final TopicDatasource topicDatasource;
+
   TopicRepositoryImpl({required this.topicDatasource});
+
   @override
-  Future<List<TopicEntity>> getTopics() async {
+  Future<List<TopicEntity>> getTopics(String categori) async {
     try {
-      final result = await topicDatasource.getTopics();
+      final result = await topicDatasource.getTopics(categori);
+      return result;
+    } catch (e) {
+      throw Exception("Repository error: ${e.toString()}");
+    }
+  }
+
+  @override
+  Future<List<String>> getCategories() {
+    try {
+      final result = topicDatasource.getCategories();
       return result;
     } catch (e) {
       throw Exception("Repository error: ${e.toString()}");
