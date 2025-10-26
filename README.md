@@ -8,16 +8,16 @@ Aplikasi debat interaktif berbasis Flutter yang menggunakan Large Language Model
 <!-- Buat folder 'screenshots' di root project dan simpan gambar-gambar di sana -->
 
 <div align="center">
-  <img src="screenshots/splash_screen.png" width="200" alt="Splash Screen"/>
-  <img src="screenshots/login_screen.png" width="200" alt="Login Screen"/>
-  <img src="screenshots/home_screen.png" width="200" alt="Home Screen"/>
-  <img src="screenshots/debate_screen.png" width="200" alt="Debate Screen"/>
+  <img src="screenshots/page10.jpeg" width="200" alt="Home Screen"/>
+  <img src="screenshots/page6.jpeg" width="200" alt="Topics Screen"/>
+  <img src="screenshots/page2.jpeg" width="200" alt="Debate Screen"/>
 </div>
 
 <div align="center">
-  <img src="screenshots/topics_screen.png" width="200" alt="Topics Screen"/>
-  <img src="screenshots/profile_screen.png" width="200" alt="Profile Screen"/>
-  <img src="screenshots/analysis_screen.png" width="200" alt="Analysis Screen"/>
+<img src="screenshots/page.jpeg" width="200" alt="SingUp Screen"/>
+  <img src="screenshots/page3.jpeg" width="200" alt="Login Screen"/>
+  <img src="screenshots/page8.jpeg" width="200" alt="Profile Screen"/>
+  <img src="screenshots/page7.jpeg" width="200" alt="Analysis Screen"/>
 </div>
 
 > **Catatan**: Untuk menambahkan screenshot:
