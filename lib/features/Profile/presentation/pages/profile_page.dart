@@ -17,7 +17,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade100,
+      backgroundColor: AppColor.background,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -276,8 +276,6 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-
-
   Widget _buildMenuItemWithSwitch({
     required IconData icon,
     required String title,
@@ -316,4 +314,3 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 }
 
- 
