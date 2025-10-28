@@ -8,8 +8,8 @@ class SendmessageUsecase {
 
   Future<ChatEntity> call({
     required String prompt,
-    required int sessionId,
+    required String session_id,
   }) async {
-    return await repository.sendMessage(prompt: prompt, sessionId: sessionId);
+    return await repository.sendMessage(prompt: prompt, session_id: session_id);
   }
 }

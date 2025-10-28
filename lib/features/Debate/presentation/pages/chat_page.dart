@@ -101,7 +101,7 @@ class _ChatPageState extends State<ChatPage>
 
     _stop();
     final bloc = context.read<DebateBloc>();
-    if (bloc.currentSessionId == 0) {
+    if (bloc.currentsession_id == 0) {
       bloc.add(
         CreateSessionEvent(
           prompt: text,
@@ -235,7 +235,7 @@ class _ChatPageState extends State<ChatPage>
                     ChatEntity(
                       role: 'assistant',
                       content: '__typing__',
-                      sessionId: bloc.currentSessionId,
+                      session_id: bloc.currentsession_id,
                     ),
                   );
                 }

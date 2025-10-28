@@ -11,7 +11,7 @@ class DebateBloc extends Bloc<DebateEvent, DebateState> {
   final SendmessageUsecase sendMessage;
   final CreateSessionUsecase createSession;
 
-  int currentSessionId = 0;
+  String currentsession_id = '';
   List<ChatEntity> messages = [];
 
   DebateBloc({required this.sendMessage, required this.createSession})
@@ -25,12 +25,12 @@ class DebateBloc extends Bloc<DebateEvent, DebateState> {
     Emitter<DebateState> emit,
   ) async {
     messages = [];
-    currentSessionId = 0;
+    currentsession_id = '';
 
     final userMsg = ChatEntity(
       role: 'user',
       content: event.prompt,
-      sessionId: null,
+      session_id: null,
     );
     messages.add(userMsg);
     emit(DebatLoaded(messages: List.from(messages)));
@@ -44,21 +44,30 @@ class DebateBloc extends Bloc<DebateEvent, DebateState> {
       );
 
       final sidRaw = res["session_id"];
+      print("session_id: $sidRaw");
+      print("session_id: ${sidRaw.runtimeType}");
       final respRaw = res["response"];
 
-      if (sidRaw is! int) {
-        throw Exception("session_id tidak valid");
-      }
+      int? parseId;
+      // if (sidRaw is int) {
+      //   throw Exception("session_id tidak valid");
+      // }
       if (respRaw == null) {
         throw Exception("response kosong");
       }
+      if (sidRaw is int) {
+        parseId = sidRaw;
+      } else if (sidRaw is String) {
+        final asInt = int.tryParse(sidRaw);
+        if (asInt != null) parseId = asInt;
+      }
 
-      currentSessionId = sidRaw;
+      currentsession_id = sidRaw;
 
       final aiMsg = ChatEntity(
         role: 'assistant',
         content: respRaw.toString(),
-        sessionId: currentSessionId,
+        session_id: currentsession_id,
       );
       messages.add(aiMsg);
       emit(DebatLoaded(messages: List.from(messages)));
@@ -71,7 +80,7 @@ class DebateBloc extends Bloc<DebateEvent, DebateState> {
     SendMessageEvent event,
     Emitter<DebateState> emit,
   ) async {
-    if (currentSessionId == 0) {
+    if (currentsession_id == 0) {
       emit(
         const DebateError(
           message: "Sesi belum dibuat. Kirim pesan pertama untuk memulai.",
@@ -83,7 +92,7 @@ class DebateBloc extends Bloc<DebateEvent, DebateState> {
     final userMsg = ChatEntity(
       role: 'user',
       content: event.prompt,
-      sessionId: currentSessionId,
+      session_id: currentsession_id,
     );
     messages.add(userMsg);
     emit(DebatLoaded(messages: List.from(messages)));
@@ -92,7 +101,7 @@ class DebateBloc extends Bloc<DebateEvent, DebateState> {
       emit(DebateLoading());
       final aiMsg = await sendMessage(
         prompt: event.prompt,
-        sessionId: currentSessionId,
+        session_id: currentsession_id,
       );
       messages.add(aiMsg);
       emit(DebatLoaded(messages: List.from(messages)));

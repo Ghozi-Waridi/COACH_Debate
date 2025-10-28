@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 abstract class ChatDatasource {
   Future<Map<String, dynamic>> sendMessage({
     required String prompt,
-    int? sessionId,
+    String? session_id,
   });
 
   Future<Map<String, dynamic>> createSession({
@@ -46,12 +46,12 @@ class ChatDatasourceImpl implements ChatDatasource {
   @override
   Future<Map<String, dynamic>> sendMessage({
     required String prompt,
-    int? sessionId,
+    String? session_id,
   }) async {
     try {
       final body = {
         "prompt": prompt,
-        if (sessionId != null) "sessionId": sessionId,
+        if (session_id != null) "session_id": session_id,
       };
 
       final response = await dio.post(ApiConfig.chatEndpoint, data: body);

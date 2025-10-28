@@ -6,6 +6,7 @@ class ApiConfig {
       "https://django-backend-debate-app.vercel.app";
   static String get chatEndpoint => "$_urlGroqAPI/api/chat/";
   static String get topicsEndpoint => "$_urlGroqAPI/api/topics/";
+  static String get historyEndpoint => "$_urlGroqAPI/api/history/";
 
   /// ================
   /// API Keys NewsAPI

@@ -10,14 +10,14 @@
 //   @override
 //   Future<ChatEntity> sendMessage({
 //     required String prompt,
-//     int? sessionId,
+//     int? session_id,
 //     String? topic,
 //     String? role,
 //   }) async {
 //     try {
 //       final response = await datasource.sendMessage(
 //         prompt: prompt,
-//         sessionId: sessionId,
+//         session_id: session_id,
 //         // topic: topic,
 //         // role: role,
 //       );
@@ -26,7 +26,7 @@
 //         final aiResponse = ChatEntity(
 //           role: 'assistant',
 //           content: response["response"],
-//           sessionId: response["session_id"],
+//           session_id: response["session_id"],
 //         );
 //         return aiResponse;
 //       } else {
@@ -53,7 +53,7 @@
 //         final aiResponse = ChatEntity(
 //           role: 'assistant',
 //           content: response["response"],
-//           sessionId: response["session_id"],
+//           session_id: response["session_id"],
 //         );
 //         return aiResponse;
 //       } else {
@@ -77,11 +77,11 @@ class ChatRepositoryImpl implements ChatRepository {
   @override
   Future<ChatEntity> sendMessage({
     required String prompt,
-    required int sessionId,
+    required String session_id,
   }) async {
     final response = await datasource.sendMessage(
       prompt: prompt,
-      sessionId: sessionId,
+      session_id: session_id,
     );
 
     if (!response.containsKey("response")) {
@@ -91,9 +91,7 @@ class ChatRepositoryImpl implements ChatRepository {
     return ChatEntity(
       role: 'assistant',
       content: (response["response"] ?? "").toString(),
-      sessionId: response["session_id"] is int
-          ? response["session_id"] as int
-          : null,
+      session_id: response["session_id"]?.toString(),
     );
   }
 

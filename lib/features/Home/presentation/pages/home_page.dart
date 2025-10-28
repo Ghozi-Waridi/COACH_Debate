@@ -3,6 +3,8 @@ import 'package:choach_debate/features/Home/presentation/widgets/card_widget.dar
 import 'package:flutter/material.dart';
 import 'package:choach_debate/core/router/app_router_enum.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:choach_debate/features/Profile/presentation/bloc/profile_bloc.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -82,31 +84,40 @@ class _HomePageState extends State<HomePage>
                         ),
                       ],
                     ),
-                    child: Column(
-                      children: [
-                        Text(
-                          'Selamat Datang, Ghozi!',
-                          textAlign: TextAlign.center,
-                          style: textTheme.headlineLarge?.copyWith(
-                            color: AppColor.blueDark,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 12),
-                        Text(
-                          'Tingkatkan kemampuan berdebat Anda.\nSiap untuk memulai sesi?',
-                          textAlign: TextAlign.center,
-                          style: textTheme.bodyLarge?.copyWith(
-                            color: AppColor.blueDark.withOpacity(0.8),
-                            height: 1.5,
-                          ),
-                        ),
-                      ],
+                    child: BlocBuilder<ProfileBloc, ProfileState>(
+                      builder: (context, state) {
+                        String userName = 'User'; // Default fallback
+
+                        if (state is ProfileLoaded) {
+                          userName = state.profile.userName;
+                        }
+
+                        return Column(
+                          children: [
+                            Text(
+                              'Selamat Datang, $userName!',
+                              textAlign: TextAlign.center,
+                              style: textTheme.headlineLarge?.copyWith(
+                                color: AppColor.blueDark,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 12),
+                            Text(
+                              'Tingkatkan kemampuan berdebat Anda.\nSiap untuk memulai sesi?',
+                              textAlign: TextAlign.center,
+                              style: textTheme.bodyLarge?.copyWith(
+                                color: AppColor.blueDark.withOpacity(0.8),
+                                height: 1.5,
+                              ),
+                            ),
+                          ],
+                        );
+                      },
                     ),
                   ),
                   const SizedBox(height: 40),
 
-                  // Stats Cards
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -115,7 +126,16 @@ class _HomePageState extends State<HomePage>
                         value: '12',
                         icon: Icons.assignment,
                       ),
-                      CardWidget(title: 'Topik', value: '8', icon: Icons.topic),
+                      GestureDetector(
+                        onTap: () {
+                          context.goNamed(AppRouterEnum.topicsScreen.name);
+                        },
+                        child: CardWidget(
+                          title: 'Topik',
+                          value: '8',
+                          icon: Icons.topic,
+                        ),
+                      ),
                       CardWidget(
                         title: 'Level',
                         value: 'Intermediate',
@@ -126,7 +146,6 @@ class _HomePageState extends State<HomePage>
                 ],
               ),
 
-              // Bottom Button
               Column(
                 children: [
                   ScaleTransition(

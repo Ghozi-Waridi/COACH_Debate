@@ -59,7 +59,11 @@ class AppRouter {
                 parentNavigatorKey: _sheelNavigatorHome,
                 path: AppRouterEnum.homeScreen.path,
                 name: AppRouterEnum.homeScreen.name,
-                builder: (context, state) => HomePage(),
+                builder: (context, state) => BlocProvider(
+                  create: (context) =>
+                      sl<ProfileBloc>()..add(FetchProfilePressed()),
+                  child: HomePage(),
+                ),
                 // SubRoute || SubPage
                 routes: [
                   GoRoute(
