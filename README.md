@@ -2,7 +2,7 @@
 
 Aplikasi debat interaktif berbasis Flutter yang menggunakan Large Language Model (LLM) untuk melatih kemampuan berdebat pengguna. Aplikasi ini menyediakan platform untuk berdebat dengan AI, analisis argumen, dan pelacakan progres.
 
-## � Screenshots
+##  Screenshots
 
 <!-- Tambahkan screenshot aplikasi Anda di sini -->
 <!-- Buat folder 'screenshots' di root project dan simpan gambar-gambar di sana -->
@@ -20,13 +20,8 @@ Aplikasi debat interaktif berbasis Flutter yang menggunakan Large Language Model
   <img src="screenshots/page7.jpeg" width="200" alt="Analysis Screen"/>
 </div>
 
-> **Catatan**: Untuk menambahkan screenshot:
->
-> 1. Buat folder `screenshots/` di root project
-> 2. Tambahkan file gambar dengan nama yang sesuai (splash_screen.png, login_screen.png, dll)
-> 3. Pastikan gambar dalam format PNG atau JPG dengan ukuran yang wajar (max 2MB per gambar)
 
-## �📋 Deskripsi
+## 📋 Deskripsi
 
 COACH Debate adalah aplikasi mobile yang dirancang untuk membantu pengguna meningkatkan kemampuan berdebat mereka melalui interaksi dengan AI. Aplikasi ini mengintegrasikan teknologi Speech-to-Text, Text-to-Speech, dan LLM untuk memberikan pengalaman debat yang realistis dan interaktif.
 
@@ -39,7 +34,6 @@ COACH Debate adalah aplikasi mobile yang dirancang untuk membantu pengguna menin
 - **📊 Analisis Debat**: Evaluasi dan analisis argumen pengguna
 - **📚 Topik Debat**: Berbagai topik debat yang dapat dipilih
 - **👤 Profil Pengguna**: Manajemen profil dan tracking progress
-- **🏠 Dashboard**: Overview aktivitas dan statistik debat
 
 ## 🏗️ Arsitektur
 
@@ -101,7 +95,6 @@ Setiap fitur mengikuti struktur Clean Architecture:
 ### Navigation & UI
 
 - **go_router** (^16.1.0): Deklaratif routing
-- **webview_flutter** (^4.13.0): WebView support
 - **liquid_glass_renderer** (^0.1.1-dev.10): Efek visual
 
 ### Utilities
@@ -170,7 +163,7 @@ flutter pub get
 
 **Penting**: Project ini memerlukan backend untuk berfungsi dengan baik.
 
-📌 **Link Backend**: [COACH Debate Backend Repository](https://github.com/Ghozi-Waridi/COACH_Debate_Backend)
+📌 **Link Backend**: [COACH Debate Backend Repository](https://github.com/Ghozi-Waridi/django-backend-DebateAPP)
 
 Ikuti langkah-langkah berikut:
 
@@ -189,7 +182,7 @@ b. **Dapatkan Credentials**
 
 c. **Setup Database & Functions**
 
-- Clone dan setup backend sesuai instruksi di [Backend Repository](https://github.com/Ghozi-Waridi/COACH_Debate_Backend)
+- Clone dan setup backend sesuai instruksi di [Backend Repository](https://github.com/Ghozi-Waridi/COACH_Debate_Backend) [ NOTE : Msih Terjadi Error 😭😭]
 - Deploy Edge Functions untuk AI debat
 - Setup database tables dan security policies
 
@@ -222,18 +215,8 @@ SUPABASE_KEY=your-anon-key-here
 # Cek device yang tersedia
 flutter devices
 
-# Jalankan emulator dari Android Studio atau
-emulator -avd <nama_emulator>
 ```
 
-**Untuk iOS (Mac only):**
-
-```bash
-# Buka iOS Simulator
-open -a Simulator
-
-# Atau dari Xcode
-```
 
 **Untuk Physical Device:**
 
@@ -253,7 +236,7 @@ flutter run
 flutter run -d <device_id>
 
 # Mode release (lebih cepat)
-flutter run --release
+flutter run
 ```
 
 #### 8. **Verifikasi**
@@ -317,27 +300,9 @@ Untuk production, pertimbangkan upgrade plan jika usage melebihi limit.
 
 - [Flutter Documentation](https://docs.flutter.dev/)
 - [Supabase Documentation](https://supabase.com/docs)
-- [Backend Repository](https://github.com/Ghozi-Waridi/COACH_Debate_Backend)
+- [Backend Repository](https://github.com/Ghozi-Waridi/django-backend-DebateAPP)
 
-## 🚀 Build & Deploy
 
-### Build APK (Android)
-
-```bash
-flutter build apk --release
-```
-
-### Build App Bundle (Android)
-
-```bash
-flutter build appbundle --release
-```
-
-### Build iOS
-
-```bash
-flutter build ios --release
-```
 
 ## 📱 Fitur Detail
 
@@ -399,20 +364,6 @@ Permissions yang diperlukan (sudah dikonfigurasi di `AndroidManifest.xml`):
 - Microphone access (untuk Speech-to-Text)
 - Audio recording
 
-### iOS Permissions
-
-Tambahkan di `Info.plist`:
-
-- NSMicrophoneUsageDescription
-- NSSpeechRecognitionUsageDescription
-
-## 🧪 Testing
-
-Jalankan test:
-
-```bash
-flutter test
-```
 
 ## 📝 Dependency Injection
 
