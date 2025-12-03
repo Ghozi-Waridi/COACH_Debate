@@ -1,6 +1,7 @@
 import 'package:choach_debate/features/Analis/presentation/pages/analis_page.dart';
 import 'package:choach_debate/features/Auth/presentation/bloc/auth_bloc.dart';
 import 'package:choach_debate/features/Auth/presentation/pages/auth_pages.dart';
+import 'package:choach_debate/features/History/presentation/pages/history_page.dart';
 import 'package:choach_debate/features/Home/presentation/pages/home_page.dart';
 import 'package:choach_debate/features/Profile/presentation/bloc/profile_bloc.dart';
 import 'package:choach_debate/features/Profile/presentation/pages/profile_page.dart';
@@ -34,6 +35,7 @@ class AppRouter {
     initialLocation: AppRouterEnum.loginScreen.path,
 
     routes: [
+      // Page for loginScreem
       GoRoute(
         parentNavigatorKey: _rootNavigatorKey,
         path: AppRouterEnum.loginScreen.path,
@@ -42,6 +44,14 @@ class AppRouter {
           create: (context) => sl<AuthBloc>(),
           child: AuthPages(),
         ),
+      ),
+
+      // Page for historyScreen
+      GoRoute(
+        parentNavigatorKey: _rootNavigatorKey,
+        path: AppRouterEnum.historyScreen.path,
+        name: AppRouterEnum.historyScreen.name,
+        builder: (context, state) => HistoryPage(),
       ),
 
       // Page for HomeScreen

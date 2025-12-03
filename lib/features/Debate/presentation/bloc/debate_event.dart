@@ -27,3 +27,17 @@ class SendMessageEvent extends DebateEvent {
   @override
   List<Object?> get props => [prompt];
 }
+
+// Event untuk load session yang sudah ada dari history
+class LoadExistingSessionEvent extends DebateEvent {
+  final String sessionId;
+  final List<ChatEntity> existingMessages;
+
+  const LoadExistingSessionEvent({
+    required this.sessionId,
+    required this.existingMessages,
+  });
+
+  @override
+  List<Object?> get props => [sessionId, existingMessages];
+}

@@ -8,15 +8,7 @@ class TopicCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      color: Colors.white,
-      shadowColor: Colors.black12,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-        child: TopicTile(topic: topic),
-      ),
-    );
+    // Use the styled TopicTile directly to avoid double card layers.
+    return TopicTile(topic: topic);
   }
 }

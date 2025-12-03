@@ -12,6 +12,13 @@ import 'package:choach_debate/features/Debate/domain/repositories/chat_repositor
 import 'package:choach_debate/features/Debate/domain/usecases/create_session_usecase.dart';
 import 'package:choach_debate/features/Debate/domain/usecases/send_message_usecase.dart';
 import 'package:choach_debate/features/Debate/presentation/bloc/debate_bloc.dart';
+import 'package:choach_debate/features/History/data/datasources/history_datasource.dart';
+import 'package:choach_debate/features/History/data/repositories/history_repository_impl.dart';
+import 'package:choach_debate/features/History/domain/repositories/history_repository.dart';
+import 'package:choach_debate/features/History/domain/usecases/GetAllHistory_usecase.dart';
+import 'package:choach_debate/features/History/domain/usecases/GetHIstory_usecase.dart';
+import 'package:choach_debate/features/History/domain/usecases/DeleteHistory_usecase.dart';
+import 'package:choach_debate/features/History/presentation/bloc/history_bloc.dart';
 import 'package:choach_debate/features/Profile/data/datasources/profile_remote_data_source.dart';
 import 'package:choach_debate/features/Profile/data/repositories/profile_repository_impl.dart';
 import 'package:choach_debate/features/Profile/domain/repositories/profile_repository.dart';
@@ -48,7 +55,9 @@ Future<void> init() async {
   sl.registerLazySingleton<ChatDatasource>(() => ChatDatasourceImpl(dio: sl()));
 
   // Topics
-  sl.registerFactory(() => TopicsBloc(getTopicUsecase: sl(), getCategoriUsecase: sl()));
+  sl.registerFactory(
+    () => TopicsBloc(getTopicUsecase: sl(), getCategoriUsecase: sl()),
+  );
   sl.registerLazySingleton(() => GetTopicUsecase(repository: sl()));
   sl.registerLazySingleton(() => GetCategoriUsecase(repository: sl()));
   sl.registerLazySingleton<TopicRepository>(
@@ -56,6 +65,24 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<TopicDatasource>(
     () => TopicDatasourceImpl(dio: sl()),
+  );
+
+  // History
+  sl.registerFactory(
+    () => HistoryBloc(
+      getHistoryUsecase: sl(),
+      getAllHistoryUsecase: sl(),
+      deleteHistoryUsecase: sl(),
+    ),
+  );
+  sl.registerLazySingleton(() => GetallhistoryUsecase(repository: sl()));
+  sl.registerLazySingleton(() => GethistoryUsecase(repository: sl()));
+  sl.registerLazySingleton(() => DeleteHistoryUsecase(repository: sl()));
+  sl.registerLazySingleton<HistoryRepository>(
+    () => HistoryRepositoryImpl(datasource: sl()),
+  );
+  sl.registerLazySingleton<HistoryDatasource>(
+    () => HistoryDatasourceImpl(dio: sl()),
   );
 
   // STT

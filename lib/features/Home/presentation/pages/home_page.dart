@@ -1,5 +1,4 @@
 import 'package:choach_debate/core/theme/color.dart';
-import 'package:choach_debate/features/Home/presentation/widgets/card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:choach_debate/core/router/app_router_enum.dart';
 import 'package:go_router/go_router.dart';
@@ -44,149 +43,389 @@ class _HomePageState extends State<HomePage>
     return Scaffold(
       backgroundColor: AppColor.background,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 32.0),
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 20),
+                // Modern Header
+                _buildModernHeader(),
+
+                const SizedBox(height: 24),
+
+                // Greeting Card with Gradient
+                _buildGreetingCard(textTheme),
+
+                const SizedBox(height: 32),
+
+                // Section Title
+                Text(
+                  'Statistik Anda',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: AppColor.blueDark,
+                  ),
+                ),
+                const SizedBox(height: 16),
+
+                // Modern Stats Cards
+                _buildStatsCards(context),
+
+                const SizedBox(height: 32),
+
+                // Quick Actions Section
+                Text(
+                  'Aksi Cepat',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: AppColor.blueDark,
+                  ),
+                ),
+                const SizedBox(height: 16),
+
+                _buildQuickActions(context),
+
+                const SizedBox(height: 32),
+
+                // Start Debate Button
+                _buildStartDebateButton(context),
+
+                const SizedBox(height: 32),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // Modern Header with Logo
+  Widget _buildModernHeader() {
+    return Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: AppColor.accent,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Icon(Icons.forum_rounded, color: Colors.white, size: 24),
+        ),
+        const SizedBox(width: 12),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'CoachDebate',
+              style: TextStyle(
+                color: AppColor.blueDark,
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 0.5,
+              ),
+            ),
+            Text(
+              'Asah Kemampuan Berdebat',
+              style: TextStyle(
+                color: AppColor.blueDark.withOpacity(0.6),
+                fontSize: 12,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  // Greeting Card with Gradient
+  Widget _buildGreetingCard(TextTheme textTheme) {
+    return BlocBuilder<ProfileBloc, ProfileState>(
+      builder: (context, state) {
+        String userName = 'User';
+        if (state is ProfileLoaded) {
+          userName = state.profile.userName;
+        }
+
+        return Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [AppColor.accent, AppColor.blueDark],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: AppColor.accent.withOpacity(0.3),
+                blurRadius: 20,
+                offset: const Offset(0, 10),
+              ),
+            ],
+          ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.forum_rounded, color: AppColor.accent, size: 32),
-                  const SizedBox(width: 12),
-                  Text(
-                    'CoachDebate',
-                    style: TextStyle(
-                      color: AppColor.accent,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1.2,
-                    ),
-                  ),
-                ],
-              ),
-
-              Column(
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24,
-                      vertical: 16,
-                    ),
+                    padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 15,
-                          offset: const Offset(0, 5),
-                        ),
-                      ],
+                      color: Colors.white.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(8),
                     ),
-                    child: BlocBuilder<ProfileBloc, ProfileState>(
-                      builder: (context, state) {
-                        String userName = 'User'; // Default fallback
-
-                        if (state is ProfileLoaded) {
-                          userName = state.profile.userName;
-                        }
-
-                        return Column(
-                          children: [
-                            Text(
-                              'Selamat Datang, $userName!',
-                              textAlign: TextAlign.center,
-                              style: textTheme.headlineLarge?.copyWith(
-                                color: AppColor.blueDark,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: 12),
-                            Text(
-                              'Tingkatkan kemampuan berdebat Anda.\nSiap untuk memulai sesi?',
-                              textAlign: TextAlign.center,
-                              style: textTheme.bodyLarge?.copyWith(
-                                color: AppColor.blueDark.withOpacity(0.8),
-                                height: 1.5,
-                              ),
-                            ),
-                          ],
-                        );
-                      },
+                    child: Icon(
+                      Icons.waving_hand_rounded,
+                      color: Colors.amber[300],
+                      size: 24,
                     ),
                   ),
-                  const SizedBox(height: 40),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      CardWidget(
-                        title: 'Sesi',
-                        value: '12',
-                        icon: Icons.assignment,
+                  const SizedBox(width: 12),
+                  Flexible(
+                    child: Text(
+                      'Halo, $userName!',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          context.goNamed(AppRouterEnum.topicsScreen.name);
-                        },
-                        child: CardWidget(
-                          title: 'Topik',
-                          value: '8',
-                          icon: Icons.topic,
-                        ),
-                      ),
-                      CardWidget(
-                        title: 'Level',
-                        value: 'Intermediate',
-                        icon: Icons.star,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-
-              Column(
-                children: [
-                  ScaleTransition(
-                    scale: _animation,
-                    child: GestureDetector(
-                      onTap: () {
-                        context.goNamed(AppRouterEnum.topicsScreen.name);
-                      },
-                      child: Container(
-                        width: 120,
-                        height: 120,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: AppColor.purpleLight,
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppColor.purpleLight.withOpacity(0.4),
-                              blurRadius: 20,
-                              spreadRadius: 3,
-                            ),
-                          ],
-                        ),
-                        child: const Icon(
-                          Icons.mic,
-                          color: Colors.white,
-                          size: 50,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'Tap untuk mulai debat',
-                    style: TextStyle(
-                      color: AppColor.blueDark.withOpacity(0.7),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ],
               ),
+              const SizedBox(height: 16),
+              Text(
+                'Mari tingkatkan skill debat Anda hari ini',
+                style: TextStyle(
+                  color: Colors.white.withOpacity(0.9),
+                  fontSize: 15,
+                  height: 1.4,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  // Modern Stats Cards
+  Widget _buildStatsCards(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: _buildStatCard(
+            context,
+            icon: Icons.history_rounded,
+            title: 'Total Sesi',
+            value: '12',
+            color: AppColor.accent,
+            onTap: () => context.pushNamed(AppRouterEnum.historyScreen.name),
+          ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: _buildStatCard(
+            context,
+            icon: Icons.topic_rounded,
+            title: 'Topik',
+            value: '8',
+            color: AppColor.purpleLight,
+            onTap: () => context.pushNamed(AppRouterEnum.topicsScreen.name),
+          ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: _buildStatCard(
+            context,
+            icon: Icons.trending_up_rounded,
+            title: 'Level',
+            value: 'Pro',
+            color: AppColor.blueDark,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildStatCard(
+    BuildContext context, {
+    required IconData icon,
+    required String title,
+    required String value,
+    required Color color,
+    VoidCallback? onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: color.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(icon, color: color, size: 24),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              value,
+              style: TextStyle(
+                color: AppColor.blueDark,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              title,
+              style: TextStyle(
+                color: AppColor.blueDark.withOpacity(0.6),
+                fontSize: 12,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Quick Actions
+  Widget _buildQuickActions(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: _buildActionButton(
+            context,
+            icon: Icons.history_rounded,
+            label: 'Riwayat',
+            onTap: () => context.pushNamed(AppRouterEnum.historyScreen.name),
+          ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: _buildActionButton(
+            context,
+            icon: Icons.analytics_outlined,
+            label: 'Analisis',
+            onTap: () {
+              // Navigate to analysis page when available
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildActionButton(
+    BuildContext context, {
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: AppColor.accent.withOpacity(0.2),
+            width: 1.5,
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: AppColor.accent, size: 20),
+            const SizedBox(width: 8),
+            Text(
+              label,
+              style: TextStyle(
+                color: AppColor.blueDark,
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Start Debate Button
+  Widget _buildStartDebateButton(BuildContext context) {
+    return GestureDetector(
+      onTap: () => context.pushNamed(AppRouterEnum.topicsScreen.name),
+      child: ScaleTransition(
+        scale: _animation,
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(vertical: 20),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                AppColor.purpleLight,
+                AppColor.purpleLight.withOpacity(0.8),
+              ],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            ),
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: AppColor.purpleLight.withOpacity(0.4),
+                blurRadius: 20,
+                offset: const Offset(0, 10),
+              ),
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.2),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(Icons.mic_rounded, color: Colors.white, size: 28),
+              ),
+              const SizedBox(width: 16),
+              Text(
+                'Mulai Debat Sekarang',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 0.5,
+                ),
+              ),
+              const SizedBox(width: 8),
+              Icon(Icons.arrow_forward_rounded, color: Colors.white, size: 20),
             ],
           ),
         ),

@@ -1,5 +1,6 @@
 import 'package:choach_debate/features/Auth/presentation/bloc/auth_bloc.dart';
 import 'package:choach_debate/features/Debate/presentation/bloc/debate_bloc.dart';
+import 'package:choach_debate/features/History/presentation/bloc/history_bloc.dart';
 import 'package:choach_debate/features/Topics/presentation/bloc/topics_bloc.dart';
 import 'package:choach_debate/injection.dart' as di;
 import 'package:flutter/material.dart';
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => di.sl<TopicsBloc>()..add(GetTopicsEvent()),
         ),
+        BlocProvider(create: (context) => di.sl<HistoryBloc>()..add(GetAllHistoryEvent()))
       ],
       child: MaterialApp.router(
         title: 'Debat LLM',

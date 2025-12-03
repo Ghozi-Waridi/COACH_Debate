@@ -5,6 +5,7 @@ enum AppRouterEnum {
   debateScreen,
   profileScreen,
   analiticsScreen,
+  historyScreen,
 }
 
 extension AppRouterEnumExtension on AppRouterEnum {
@@ -20,6 +21,8 @@ extension AppRouterEnumExtension on AppRouterEnum {
         return 'debateScreen';
       case AppRouterEnum.profileScreen:
         return 'profileScreen';
+      case AppRouterEnum.historyScreen:
+        return 'historyScreen';
       case AppRouterEnum.analiticsScreen:
         return 'analiticsScreen';
     }
@@ -39,8 +42,8 @@ extension AppRouterEnumExtension on AppRouterEnum {
         return '/profile';
       case AppRouterEnum.analiticsScreen:
         return '/analitics';
-      default:
-        return '/unknown';
+      case AppRouterEnum.historyScreen:
+        return '/history';
     }
   }
 }
