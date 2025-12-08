@@ -1,0 +1,21 @@
+targets:
+  $default:
+    builders:
+      json_serializable:
+        options:
+          # Creates a single .g.dart file for each .dart file
+          explicit_to_json: true
+          # Handles fields that can be null
+          nullable_checks: true
+          # Use any_map to be more flexible with JSON input
+          any_map: false
+          # Check for required fields
+          checked: true
+          # Create toJson method
+          create_to_json: true
+          # Create fromJson factory
+          create_factory: true
+          # Disallow nullable values for non-nullable fields
+          disallow_unrecognized_keys: false
+          # Creates field converters if needed
+          field_rename: none

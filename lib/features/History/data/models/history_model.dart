@@ -1,5 +1,9 @@
 import 'package:choach_debate/features/History/domain/entities/history_entity.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'history_model.g.dart';
+
+@JsonSerializable()
 class HistoryModel extends HistoryEntity {
   HistoryModel({
     required super.session_id,
@@ -31,6 +35,7 @@ class HistoryModel extends HistoryEntity {
   }
 }
 
+@JsonSerializable()
 class HistoryMessageModel extends HistoryMessageEntity {
   HistoryMessageModel({
     required super.role,
@@ -38,19 +43,8 @@ class HistoryMessageModel extends HistoryMessageEntity {
     required super.timestamp,
   });
 
-  factory HistoryMessageModel.fromJson(Map<String, dynamic> json) {
-    return HistoryMessageModel(
-      role: json['role'],
-      content: json['content'],
-      timestamp: DateTime.parse(json['timestamp']),
-    );
-  }
+  factory HistoryMessageModel.fromJson(Map<String, dynamic> json) =>
+      _$HistoryMessageModelFromJson(json);
 
-  Map<String, dynamic> toJson() {
-    return {
-      'role': role,
-      'content': content,
-      'timestamp': timestamp.toIso8601String(),
-    };
-  }
+  Map<String, dynamic> toJson() => _$HistoryMessageModelToJson(this);
 }
