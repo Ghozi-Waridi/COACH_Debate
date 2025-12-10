@@ -37,3 +37,12 @@ class HistoryDetaulLoaded extends HistoryState {
   @override
   List<Object> get props => [historyDetail];
 }
+
+class HistoryDeleteSuccess extends HistoryState {
+  final String message;
+
+  HistoryDeleteSuccess({this.message = 'Riwayat berhasil dihapus'});
+
+  @override
+  List<Object> get props => [message];
+}

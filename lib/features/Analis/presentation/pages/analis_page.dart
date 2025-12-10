@@ -1,8 +1,13 @@
 import 'dart:ui';
 import 'package:choach_debate/core/theme/color.dart';
+import 'package:choach_debate/features/Analis/presentation/bloc/analis_bloc.dart';
+import 'package:choach_debate/features/Analis/presentation/bloc/analis_event.dart';
+import 'package:choach_debate/features/Analis/presentation/bloc/analis_state.dart';
 import 'package:choach_debate/features/Analis/presentation/widgets/card_item_widget.dart';
 import 'package:choach_debate/features/Analis/presentation/widgets/card_session_widget.dart';
+import 'package:choach_debate/injection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AnalisPage extends StatefulWidget {
   const AnalisPage({super.key});
@@ -38,118 +43,149 @@ class _AnalisPageState extends State<AnalisPage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColor.background,
-      body: Stack(
-        children: [
-          // Gradient background dengan blur circles
-          Positioned(
-            top: -100,
-            right: -100,
-            child: Container(
-              width: 300,
-              height: 300,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: RadialGradient(
-                  colors: [
-                    AppColor.accent.withOpacity(0.3),
-                    AppColor.accent.withOpacity(0.1),
-                    Colors.transparent,
-                  ],
+    return BlocProvider(
+      create: (context) => sl<AnalisBloc>()..add(const LoadAnalisDataEvent()),
+      child: Scaffold(
+        backgroundColor: AppColor.background,
+        body: Stack(
+          children: [
+            // Gradient background dengan blur circles
+            Positioned(
+              top: -100,
+              right: -100,
+              child: Container(
+                width: 300,
+                height: 300,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: RadialGradient(
+                    colors: [
+                      AppColor.accent.withOpacity(0.3),
+                      AppColor.accent.withOpacity(0.1),
+                      Colors.transparent,
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          Positioned(
-            bottom: -150,
-            left: -100,
-            child: Container(
-              width: 350,
-              height: 350,
-              decoration: BoxDecimal(
-                shape: BoxShape.circle,
-                gradient: RadialGradient(
-                  colors: [
-                    AppColor.purpleLight.withOpacity(0.2),
-                    AppColor.purpleLight.withOpacity(0.05),
-                    Colors.transparent,
-                  ],
+            Positioned(
+              bottom: -150,
+              left: -100,
+              child: Container(
+                width: 350,
+                height: 350,
+                decoration: BoxDecimal(
+                  shape: BoxShape.circle,
+                  gradient: RadialGradient(
+                    colors: [
+                      AppColor.purpleLight.withOpacity(0.2),
+                      AppColor.purpleLight.withOpacity(0.05),
+                      Colors.transparent,
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
 
-          // Main content
-          SafeArea(
-            child: FadeTransition(
-              opacity: _fadeAnimation,
-              child: CustomScrollView(
-                physics: const BouncingScrollPhysics(),
-                slivers: [
-                  // Custom App Bar dengan blur effect
-                  SliverAppBar(
-                    expandedHeight: 120,
-                    floating: true,
-                    pinned: true,
-                    backgroundColor: Colors.transparent,
-                    elevation: 0,
-                    flexibleSpace: ClipRRect(
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: [
-                                Colors.white.withOpacity(0.8),
-                                Colors.white.withOpacity(0.6),
-                              ],
-                            ),
-                          ),
-                          child: FlexibleSpaceBar(
-                            centerTitle: false,
-                            titlePadding: const EdgeInsets.only(
-                              left: 20,
-                              bottom: 16,
-                            ),
-                            title: Text(
-                              'Analisis Debat',
-                              style: TextStyle(
-                                color: AppColor.blueDark,
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
+            // Main content
+            SafeArea(
+              child: FadeTransition(
+                opacity: _fadeAnimation,
+                child: BlocBuilder<AnalisBloc, AnalisState>(
+                  builder: (context, state) {
+                    return CustomScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      slivers: [
+                        // Custom App Bar dengan blur effect
+                        SliverAppBar(
+                          expandedHeight: 120,
+                          floating: true,
+                          pinned: true,
+                          backgroundColor: Colors.transparent,
+                          elevation: 0,
+                          flexibleSpace: ClipRRect(
+                            child: BackdropFilter(
+                              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                    colors: [
+                                      Colors.white.withOpacity(0.8),
+                                      Colors.white.withOpacity(0.6),
+                                    ],
+                                  ),
+                                ),
+                                child: FlexibleSpaceBar(
+                                  centerTitle: false,
+                                  titlePadding: const EdgeInsets.only(
+                                    left: 20,
+                                    bottom: 16,
+                                  ),
+                                  title: Text(
+                                    'Analisis Debat',
+                                    style: TextStyle(
+                                      color: AppColor.blueDark,
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    ),
-                  ),
 
-                  // Content
-                  SliverPadding(
-                    padding: const EdgeInsets.all(20),
-                    sliver: SliverList(
-                      delegate: SliverChildListDelegate([
-                        _buildHeroCard(),
-                        const SizedBox(height: 32),
-                        _buildSectionTitle('Ringkasan Statistik'),
-                        const SizedBox(height: 16),
-                        _buildStatsGrid(),
-                        const SizedBox(height: 32),
-                        _buildSectionTitle('Sesi Terbaru'),
-                        const SizedBox(height: 16),
-                        _buildSessionsList(),
-                      ]),
-                    ),
-                  ),
-                ],
+                        // Content
+                        SliverPadding(
+                          padding: const EdgeInsets.all(20),
+                          sliver: SliverList(
+                            delegate: SliverChildListDelegate([
+                              _buildHeroCard(),
+                              const SizedBox(height: 32),
+                              _buildSectionTitle('Ringkasan Statistik'),
+                              const SizedBox(height: 16),
+                              if (state is AnalisLoading)
+                                const Center(child: CircularProgressIndicator())
+                              else if (state is AnalisError)
+                                Center(
+                                  child: Text(
+                                    state.message,
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                                )
+                              else if (state is AnalisLoaded)
+                                _buildStatsGrid(state.analytics)
+                              else
+                                _buildStatsGrid(null),
+                              const SizedBox(height: 32),
+                              _buildSectionTitle('Sesi Terbaru'),
+                              const SizedBox(height: 16),
+                              if (state is AnalisLoading)
+                                const Center(child: CircularProgressIndicator())
+                              else if (state is AnalisError)
+                                Center(
+                                  child: Text(
+                                    'Gagal memuat data',
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                                )
+                              else if (state is AnalisLoaded)
+                                _buildSessionsList(state.recentSessions)
+                              else
+                                _buildSessionsList([]),
+                            ]),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -247,7 +283,7 @@ class _AnalisPageState extends State<AnalisPage>
     );
   }
 
-  Widget _buildStatsGrid() {
+  Widget _buildStatsGrid(analytics) {
     return Column(
       children: [
         Row(
@@ -255,7 +291,7 @@ class _AnalisPageState extends State<AnalisPage>
             Expanded(
               child: CardItemWidget(
                 title: 'Sesi Selesai',
-                value: '12',
+                value: analytics?.totalSessions.toString() ?? '0',
                 icon: Icons.assignment_turned_in_rounded,
                 color: AppColor.accent,
               ),
@@ -264,7 +300,7 @@ class _AnalisPageState extends State<AnalisPage>
             Expanded(
               child: CardItemWidget(
                 title: 'Skor Rata-rata',
-                value: '8.2',
+                value: analytics?.averageScore.toStringAsFixed(1) ?? '0.0',
                 icon: Icons.star_rounded,
                 color: AppColor.purpleLight,
               ),
@@ -277,7 +313,7 @@ class _AnalisPageState extends State<AnalisPage>
             Expanded(
               child: CardItemWidget(
                 title: 'Topik Dikuasai',
-                value: '5',
+                value: analytics?.masteredTopics.toString() ?? '0',
                 icon: Icons.emoji_events_rounded,
                 color: AppColor.blueDark,
               ),
@@ -286,7 +322,7 @@ class _AnalisPageState extends State<AnalisPage>
             Expanded(
               child: CardItemWidget(
                 title: 'Waktu Total',
-                value: '6h 30m',
+                value: analytics?.totalTime ?? '0h 0m',
                 icon: Icons.timer_rounded,
                 color: const Color(0xFF2E8B57),
               ),
@@ -297,28 +333,31 @@ class _AnalisPageState extends State<AnalisPage>
     );
   }
 
-  Widget _buildSessionsList() {
+  Widget _buildSessionsList(List sessions) {
+    if (sessions.isEmpty) {
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.all(32.0),
+          child: Text(
+            'Belum ada sesi debat',
+            style: TextStyle(
+              color: AppColor.blueDark.withOpacity(0.5),
+              fontSize: 16,
+            ),
+          ),
+        ),
+      );
+    }
+
     return Column(
-      children: [
-        CardSessionWidget(
-          topic: 'Debat Politik - Isu Kebijakan Luar Negeri',
-          score: '8.5',
-          duration: '30 menit',
-          date: DateTime.now().subtract(const Duration(days: 1)),
-        ),
-        CardSessionWidget(
-          topic: 'Isu Lingkungan - Perubahan Iklim Global',
-          score: '7.8',
-          duration: '25 menit',
-          date: DateTime.now().subtract(const Duration(days: 3)),
-        ),
-        CardSessionWidget(
-          topic: 'Teknologi AI - Etika dan Regulasi',
-          score: '9.0',
-          duration: '35 menit',
-          date: DateTime.now().subtract(const Duration(days: 5)),
-        ),
-      ],
+      children: sessions.map((session) {
+        return CardSessionWidget(
+          topic: session.topic,
+          score: session.score.toStringAsFixed(1),
+          duration: session.duration,
+          date: session.date,
+        );
+      }).toList(),
     );
   }
 }

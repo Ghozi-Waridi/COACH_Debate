@@ -2,6 +2,7 @@ import 'package:choach_debate/core/theme/color.dart';
 import 'package:choach_debate/features/History/domain/entities/history_entity.dart';
 import 'package:choach_debate/features/History/presentation/bloc/history_bloc.dart';
 import 'package:choach_debate/features/History/presentation/widgets/HistoryItemCard.dart';
+import 'package:choach_debate/shared/utils/snackbar_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -168,7 +169,14 @@ class _HistoryPageState extends State<HistoryPage> {
               const SizedBox(height: 24),
 
               Expanded(
-                child: BlocBuilder<HistoryBloc, HistoryState>(
+                child: BlocConsumer<HistoryBloc, HistoryState>(
+                  listener: (context, state) {
+                    if (state is HistoryError) {
+                      SnackbarUtils.showError(context, state.message);
+                    } else if (state is HistoryDeleteSuccess) {
+                      SnackbarUtils.showSuccess(context, state.message);
+                    }
+                  },
                   builder: (context, state) {
                     if (state is HistoryLoading) {
                       return _buildLoadingState();

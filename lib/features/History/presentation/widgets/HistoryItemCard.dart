@@ -3,6 +3,7 @@ import 'package:choach_debate/features/History/domain/entities/history_entity.da
 import 'package:choach_debate/features/Debate/domain/entities/chat_entity.dart';
 import 'package:choach_debate/features/Debate/presentation/pages/chat_page.dart';
 import 'package:choach_debate/features/History/presentation/bloc/history_bloc.dart';
+import 'package:choach_debate/shared/utils/snackbar_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -179,39 +180,8 @@ class HistoryItemCard extends StatelessWidget {
               onPressed: () {
                 Navigator.of(dialogContext).pop();
 
-                // Tampilkan loading snackbar
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              Colors.white,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Flexible(
-                          child: const Text(
-                            'Menghapus riwayat...',
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ],
-                    ),
-                    backgroundColor: AppColor.blueDark,
-                    behavior: SnackBarBehavior.floating,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    duration: Duration(seconds: 2),
-                  ),
-                );
+                // Show loading message
+                SnackbarUtils.showInfo(context, 'Menghapus riwayat...');
 
                 // Trigger delete event
                 context.read<HistoryBloc>().add(

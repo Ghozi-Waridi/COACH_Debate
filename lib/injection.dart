@@ -1,3 +1,8 @@
+import 'package:choach_debate/features/Analis/data/repositories/analis_repository_impl.dart';
+import 'package:choach_debate/features/Analis/domain/repositories/analis_repository.dart';
+import 'package:choach_debate/features/Analis/domain/usecases/get_analytics_usecase.dart';
+import 'package:choach_debate/features/Analis/domain/usecases/get_recent_sessions_usecase.dart';
+import 'package:choach_debate/features/Analis/presentation/bloc/analis_bloc.dart';
 import 'package:choach_debate/features/Auth/data/datasources/auth_remote_data_source.dart';
 import 'package:choach_debate/features/Auth/data/repositories/auth_repository_impl.dart';
 import 'package:choach_debate/features/Auth/domain/repositories/auth_repository.dart';
@@ -45,6 +50,16 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 final sl = GetIt.instance;
 
 Future<void> init() async {
+  // Analis
+  sl.registerFactory(
+    () => AnalisBloc(getAnalyticsUseCase: sl(), getRecentSessionsUseCase: sl()),
+  );
+  sl.registerLazySingleton(() => GetAnalyticsUseCase(sl()));
+  sl.registerLazySingleton(() => GetRecentSessionsUseCase(sl()));
+  sl.registerLazySingleton<AnalisRepository>(
+    () => AnalisRepositoryImpl(historyRepository: sl()),
+  );
+
   // Debate
   sl.registerFactory(() => DebateBloc(sendMessage: sl(), createSession: sl()));
   sl.registerLazySingleton(() => SendmessageUsecase(repository: sl()));

@@ -1,6 +1,7 @@
 import 'package:choach_debate/core/theme/color.dart';
 import 'package:choach_debate/features/Auth/presentation/bloc/auth_bloc.dart';
 import 'package:choach_debate/features/Profile/presentation/widgets/card_item_widget.dart';
+import 'package:choach_debate/shared/utils/snackbar_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -63,7 +64,16 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ],
       ),
-      body: BlocBuilder<ProfileBloc, ProfileState>(
+      body: BlocConsumer<ProfileBloc, ProfileState>(
+        listener: (context, state) {
+          if (state is ProfileError) {
+            SnackbarUtils.showError(context, state.message);
+          } else if (state is ProfileUpdate) {
+            SnackbarUtils.showSuccess(context, 'Profil berhasil diperbarui');
+            // Reload profile setelah update berhasil
+            context.read<ProfileBloc>().add(FetchProfilePressed());
+          }
+        },
         builder: (context, state) {
           print(" State : ${state.toString()}");
           if (state is ProfileLoading) {
@@ -313,4 +323,3 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 }
-

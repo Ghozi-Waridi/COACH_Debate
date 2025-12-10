@@ -5,6 +5,7 @@ import 'package:choach_debate/features/Debate/presentation/bloc/debate_bloc.dart
 import 'package:choach_debate/features/Debate/presentation/widgets/chat_bubble_widget.dart';
 import 'package:choach_debate/features/Debate/presentation/widgets/message_input_widget.dart';
 import 'package:choach_debate/features/Debate/presentation/widgets/typing_bubble_widget.dart';
+import 'package:choach_debate/shared/utils/snackbar_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tts/flutter_tts.dart';
@@ -246,6 +247,11 @@ class _ChatPageState extends State<ChatPage>
                       !_isLoadingExistingSession) {
                     _speak(lastMessage.content);
                   }
+                }
+
+                // Tampilkan snackbar untuk error
+                if (state is DebateError) {
+                  SnackbarUtils.showError(context, state.message);
                 }
 
                 final bloc = context.read<DebateBloc>();

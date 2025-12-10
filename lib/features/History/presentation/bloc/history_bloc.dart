@@ -58,6 +58,9 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
       // Hapus session
       await deleteHistoryUsecase(event.sessionId);
 
+      // Emit success state
+      emit(HistoryDeleteSuccess());
+
       // Emit loading state
       emit(HistoryLoading());
 
