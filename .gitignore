@@ -46,3 +46,9 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+PANDUAN_GAMBAR.md
+JSON_SERIALIZATION.md
+IMPLEMENTATION_SUMMARY.md
+coba.md
+<!DOCTYPE html>.html

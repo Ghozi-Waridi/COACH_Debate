@@ -5,6 +5,7 @@ import 'package:choach_debate/features/Debate/presentation/bloc/debate_bloc.dart
 import 'package:choach_debate/features/Debate/presentation/widgets/chat_bubble_widget.dart';
 import 'package:choach_debate/features/Debate/presentation/widgets/message_input_widget.dart';
 import 'package:choach_debate/features/Debate/presentation/widgets/typing_bubble_widget.dart';
+import 'package:choach_debate/shared/utils/snackbar_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tts/flutter_tts.dart';
@@ -14,8 +15,16 @@ import 'package:speech_to_text/speech_to_text.dart';
 class ChatPage extends StatefulWidget {
   final String topic;
   final String role; // Pro/Kontra
+  final String? sessionId; // Optional: untuk load session yang sudah ada
+  final List<ChatEntity>? existingMessages; // Optional: pesan yang sudah ada
 
-  const ChatPage({super.key, required this.topic, required this.role});
+  const ChatPage({
+    super.key,
+    required this.topic,
+    required this.role,
+    this.sessionId,
+    this.existingMessages,
+  });
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -29,6 +38,7 @@ class _ChatPageState extends State<ChatPage>
   late FlutterTts _flutterTts;
   bool _speechEnabled = false;
   bool _isUserStopped = true;
+  bool _isLoadingExistingSession = false; // Flag untuk existing session
 
   int _lastItemCount = 0;
 
@@ -39,6 +49,25 @@ class _ChatPageState extends State<ChatPage>
     _flutterTts = FlutterTts();
     _initTextToSpeech();
     _initSpeech();
+
+    // Load existing session jika ada
+    if (widget.sessionId != null && widget.existingMessages != null) {
+      _isLoadingExistingSession = true; // Set flag
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        context.read<DebateBloc>().add(
+          LoadExistingSessionEvent(
+            sessionId: widget.sessionId!,
+            existingMessages: widget.existingMessages!,
+          ),
+        );
+        // Reset flag setelah load selesai
+        Future.delayed(const Duration(milliseconds: 500), () {
+          if (mounted) {
+            setState(() => _isLoadingExistingSession = false);
+          }
+        });
+      });
+    }
   }
 
   @override
@@ -212,9 +241,17 @@ class _ChatPageState extends State<ChatPage>
                       .read<DebateBloc>()
                       .messages
                       .lastOrNull;
-                  if (lastMessage != null && lastMessage.role == 'assistant') {
+                  // Hanya speak jika bukan loading existing session
+                  if (lastMessage != null &&
+                      lastMessage.role == 'assistant' &&
+                      !_isLoadingExistingSession) {
                     _speak(lastMessage.content);
                   }
+                }
+
+                // Tampilkan snackbar untuk error
+                if (state is DebateError) {
+                  SnackbarUtils.showError(context, state.message);
                 }
 
                 final bloc = context.read<DebateBloc>();
@@ -365,9 +402,7 @@ class _ChatPageState extends State<ChatPage>
                 textController: _textCtrl,
                 sendMessage: _handleSend,
                 isListening: !_isUserStopped,
-                onMicPressed: _isUserStopped
-                    ? _startListening
-                    : _stopListening,
+                onMicPressed: _isUserStopped ? _startListening : _stopListening,
               ),
             ),
           ),

@@ -1,4 +1,3 @@
-import 'package:choach_debate/core/error/failure.dart';
 import 'package:choach_debate/features/Profile/domain/usecases/updateProfile_usecase.dart';
 import 'package:choach_debate/features/Profile/domain/usecases/fetchProfile_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

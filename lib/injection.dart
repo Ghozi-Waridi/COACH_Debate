@@ -1,3 +1,8 @@
+import 'package:choach_debate/features/Analis/data/repositories/analis_repository_impl.dart';
+import 'package:choach_debate/features/Analis/domain/repositories/analis_repository.dart';
+import 'package:choach_debate/features/Analis/domain/usecases/get_analytics_usecase.dart';
+import 'package:choach_debate/features/Analis/domain/usecases/get_recent_sessions_usecase.dart';
+import 'package:choach_debate/features/Analis/presentation/bloc/analis_bloc.dart';
 import 'package:choach_debate/features/Auth/data/datasources/auth_remote_data_source.dart';
 import 'package:choach_debate/features/Auth/data/repositories/auth_repository_impl.dart';
 import 'package:choach_debate/features/Auth/domain/repositories/auth_repository.dart';
@@ -12,6 +17,13 @@ import 'package:choach_debate/features/Debate/domain/repositories/chat_repositor
 import 'package:choach_debate/features/Debate/domain/usecases/create_session_usecase.dart';
 import 'package:choach_debate/features/Debate/domain/usecases/send_message_usecase.dart';
 import 'package:choach_debate/features/Debate/presentation/bloc/debate_bloc.dart';
+import 'package:choach_debate/features/History/data/datasources/history_datasource.dart';
+import 'package:choach_debate/features/History/data/repositories/history_repository_impl.dart';
+import 'package:choach_debate/features/History/domain/repositories/history_repository.dart';
+import 'package:choach_debate/features/History/domain/usecases/GetAllHistory_usecase.dart';
+import 'package:choach_debate/features/History/domain/usecases/GetHIstory_usecase.dart';
+import 'package:choach_debate/features/History/domain/usecases/DeleteHistory_usecase.dart';
+import 'package:choach_debate/features/History/presentation/bloc/history_bloc.dart';
 import 'package:choach_debate/features/Profile/data/datasources/profile_remote_data_source.dart';
 import 'package:choach_debate/features/Profile/data/repositories/profile_repository_impl.dart';
 import 'package:choach_debate/features/Profile/domain/repositories/profile_repository.dart';
@@ -38,6 +50,16 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 final sl = GetIt.instance;
 
 Future<void> init() async {
+  // Analis
+  sl.registerFactory(
+    () => AnalisBloc(getAnalyticsUseCase: sl(), getRecentSessionsUseCase: sl()),
+  );
+  sl.registerLazySingleton(() => GetAnalyticsUseCase(sl()));
+  sl.registerLazySingleton(() => GetRecentSessionsUseCase(sl()));
+  sl.registerLazySingleton<AnalisRepository>(
+    () => AnalisRepositoryImpl(historyRepository: sl()),
+  );
+
   // Debate
   sl.registerFactory(() => DebateBloc(sendMessage: sl(), createSession: sl()));
   sl.registerLazySingleton(() => SendmessageUsecase(repository: sl()));
@@ -48,7 +70,9 @@ Future<void> init() async {
   sl.registerLazySingleton<ChatDatasource>(() => ChatDatasourceImpl(dio: sl()));
 
   // Topics
-  sl.registerFactory(() => TopicsBloc(getTopicUsecase: sl(), getCategoriUsecase: sl()));
+  sl.registerFactory(
+    () => TopicsBloc(getTopicUsecase: sl(), getCategoriUsecase: sl()),
+  );
   sl.registerLazySingleton(() => GetTopicUsecase(repository: sl()));
   sl.registerLazySingleton(() => GetCategoriUsecase(repository: sl()));
   sl.registerLazySingleton<TopicRepository>(
@@ -56,6 +80,24 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<TopicDatasource>(
     () => TopicDatasourceImpl(dio: sl()),
+  );
+
+  // History
+  sl.registerFactory(
+    () => HistoryBloc(
+      getHistoryUsecase: sl(),
+      getAllHistoryUsecase: sl(),
+      deleteHistoryUsecase: sl(),
+    ),
+  );
+  sl.registerLazySingleton(() => GetallhistoryUsecase(repository: sl()));
+  sl.registerLazySingleton(() => GethistoryUsecase(repository: sl()));
+  sl.registerLazySingleton(() => DeleteHistoryUsecase(repository: sl()));
+  sl.registerLazySingleton<HistoryRepository>(
+    () => HistoryRepositoryImpl(datasource: sl()),
+  );
+  sl.registerLazySingleton<HistoryDatasource>(
+    () => HistoryDatasourceImpl(dio: sl()),
   );
 
   // STT

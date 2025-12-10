@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:choach_debate/core/router/app_router_enum.dart';
 import 'package:choach_debate/features/Auth/presentation/bloc/auth_bloc.dart';
 import 'package:choach_debate/features/Auth/presentation/widgets/auth_widget.dart';
+import 'package:choach_debate/shared/utils/snackbar_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -23,7 +24,6 @@ class _AuthPagesState extends State<AuthPages> {
   late TextEditingController _usernameController;
   late TextEditingController _institusiController;
   bool _isLogin = true;
-  bool _isLoading = false;
 
   @override
   void initState() {
@@ -50,23 +50,14 @@ class _AuthPagesState extends State<AuthPages> {
     return Scaffold(
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
-          if (state is AuthLoading) {
-            setState(() => _isLoading = true);
-          } else {
-            setState(() => _isLoading = false);
-          }
           if (state is AuthError) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(state.message)));
+            SnackbarUtils.showError(context, state.message);
+          }
+          if (state is AuthSuccess) {
+            SnackbarUtils.showSuccess(context, state.messaage);
           }
           if (state is Authenticated) {
-            print(AppRouterEnum.homeScreen.path);
             context.goNamed(AppRouterEnum.homeScreen.name);
-
-            print(
-              "User authenticated: ${state.user.email} sudah berhasil tinggal navigasi",
-            );
           }
         },
         child: Stack(
@@ -149,14 +140,9 @@ class _AuthPagesState extends State<AuthPages> {
                                   if (_isLogin) {
                                     if (_emailController.text.isEmpty ||
                                         _passwordController.text.isEmpty) {
-                                      ScaffoldMessenger.of(
+                                      SnackbarUtils.showWarning(
                                         context,
-                                      ).showSnackBar(
-                                        const SnackBar(
-                                          content: Text(
-                                            'Email dan password harus diisi',
-                                          ),
-                                        ),
+                                        'Email dan password harus diisi',
                                       );
                                       return;
                                     }
@@ -175,27 +161,17 @@ class _AuthPagesState extends State<AuthPages> {
                                             .text
                                             .isEmpty ||
                                         _institusiController.text.isEmpty) {
-                                      ScaffoldMessenger.of(
+                                      SnackbarUtils.showWarning(
                                         context,
-                                      ).showSnackBar(
-                                        const SnackBar(
-                                          content: Text(
-                                            'Semua field harus diisi',
-                                          ),
-                                        ),
+                                        'Semua field harus diisi',
                                       );
                                       return;
                                     }
                                     if (_passwordController.text !=
                                         _confirmPasswordController.text) {
-                                      ScaffoldMessenger.of(
+                                      SnackbarUtils.showWarning(
                                         context,
-                                      ).showSnackBar(
-                                        const SnackBar(
-                                          content: Text(
-                                            'Password dan konfirmasi password tidak sama',
-                                          ),
-                                        ),
+                                        'Password dan konfirmasi password tidak sama',
                                       );
                                       return;
                                     }

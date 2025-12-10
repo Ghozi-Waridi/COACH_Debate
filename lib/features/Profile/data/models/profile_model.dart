@@ -1,5 +1,9 @@
 import 'package:choach_debate/features/Profile/domain/entities/profile_entity.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'profile_model.g.dart';
+
+@JsonSerializable()
 class ProfileModel extends ProfileEntity {
   ProfileModel({
     required super.userName,
@@ -7,15 +11,8 @@ class ProfileModel extends ProfileEntity {
     required super.institusi,
   });
 
-  factory ProfileModel.fromJson(Map<String, dynamic> json) {
-    return ProfileModel(
-      userName: json['userName'] ?? '',
-      email: json['email'] ?? '',
-      institusi: json['institusi'] ?? '',
-    );
-  }
+  factory ProfileModel.fromJson(Map<String, dynamic> json) =>
+      _$ProfileModelFromJson(json);
 
-  Map<String, dynamic> toJson() {
-    return {'userName': userName, 'email': email, 'institusi': institusi};
-  }
+  Map<String, dynamic> toJson() => _$ProfileModelToJson(this);
 }

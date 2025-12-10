@@ -28,4 +28,11 @@ class ProfileLoaded extends ProfileState {
   List<Object?> get props => [profile];
 }
 
-class ProfileUpdate extends ProfileState {}
+class ProfileUpdate extends ProfileState {
+  final String message;
+
+  ProfileUpdate({this.message = 'Profil berhasil diperbarui'});
+
+  @override
+  List<Object?> get props => [message];
+}

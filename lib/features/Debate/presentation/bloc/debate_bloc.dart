@@ -18,6 +18,16 @@ class DebateBloc extends Bloc<DebateEvent, DebateState> {
     : super(DebateInitial()) {
     on<CreateSessionEvent>(_onCreateSession);
     on<SendMessageEvent>(_onSendMessage);
+    on<LoadExistingSessionEvent>(_onLoadExistingSession);
+  }
+
+  Future<void> _onLoadExistingSession(
+    LoadExistingSessionEvent event,
+    Emitter<DebateState> emit,
+  ) async {
+    currentsession_id = event.sessionId;
+    messages = List.from(event.existingMessages);
+    emit(DebatLoaded(messages: List.from(messages)));
   }
 
   Future<void> _onCreateSession(
@@ -48,18 +58,9 @@ class DebateBloc extends Bloc<DebateEvent, DebateState> {
       print("session_id: ${sidRaw.runtimeType}");
       final respRaw = res["response"];
 
-      int? parseId;
-      // if (sidRaw is int) {
-      //   throw Exception("session_id tidak valid");
-      // }
+      // Validasi response
       if (respRaw == null) {
         throw Exception("response kosong");
-      }
-      if (sidRaw is int) {
-        parseId = sidRaw;
-      } else if (sidRaw is String) {
-        final asInt = int.tryParse(sidRaw);
-        if (asInt != null) parseId = asInt;
       }
 
       currentsession_id = sidRaw;

@@ -30,11 +30,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   void _loginPressed(LoginButtonPressed event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
     final result = await singinUsecase(event.email, event.password);
-    result.fold(
-      (failure) => emit(AuthError(failure.message)),
-      (user) => emit(Authenticated(user)),
-    );
-    emit(AuthInitial());
+    result.fold((failure) => emit(AuthError(failure.message)), (user) {
+      emit(AuthSuccess('Login berhasil! Selamat datang.'));
+      emit(Authenticated(user));
+    });
   }
 
   void _singupPressed(
@@ -48,19 +47,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       event.password,
       event.user!,
     );
-    result.fold(
-      (failure) => emit(AuthError(failure.message)),
-      (user) => emit(Authenticated(user)),
-    );
+    result.fold((failure) => emit(AuthError(failure.message)), (user) {
+      emit(AuthSuccess('Registrasi berhasil! Akun Anda telah dibuat.'));
+      emit(Authenticated(user));
+    });
   }
 
   void _logoutPresed(LogoutPressed event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
     final result = await singOutUsecase();
-    result.fold(
-      (failure) => emit(AuthError(failure.message)),
-      (_) => emit(UnAuthenticated()),
-    );
+    result.fold((failure) => emit(AuthError(failure.message)), (_) {
+      emit(AuthSuccess('Logout berhasil. Sampai jumpa!'));
+      emit(UnAuthenticated());
+    });
   }
 
   void _getCurrentUser(GetCurrentUser event, Emitter<AuthState> emit) async {

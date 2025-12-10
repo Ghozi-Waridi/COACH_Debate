@@ -1,13 +1,13 @@
 import 'package:choach_debate/features/History/domain/entities/history_entity.dart';
 import 'package:choach_debate/features/History/domain/repositories/history_repository.dart';
 
-class GethistoryUsecase {
+class GetallhistoryUsecase {
   HistoryRepository repository;
 
-  GethistoryUsecase({required this.repository});
+  GetallhistoryUsecase({required this.repository});
 
-  Future<HistoryEntity> call(String session_id) async {
-    return await repository.getHistory(session_id);
+  @override
+  Future<List<HistoryEntity>> call() async {
+    return await repository.getAllHistories();
   }
 }
-

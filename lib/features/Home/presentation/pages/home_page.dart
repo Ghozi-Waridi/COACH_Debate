@@ -1,5 +1,5 @@
+import 'dart:ui';
 import 'package:choach_debate/core/theme/color.dart';
-import 'package:choach_debate/features/Home/presentation/widgets/card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:choach_debate/core/router/app_router_enum.dart';
 import 'package:go_router/go_router.dart';
@@ -44,150 +44,512 @@ class _HomePageState extends State<HomePage>
     return Scaffold(
       backgroundColor: AppColor.background,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 32.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.forum_rounded, color: AppColor.accent, size: 32),
-                  const SizedBox(width: 12),
-                  Text(
-                    'CoachDebate',
-                    style: TextStyle(
-                      color: AppColor.accent,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1.2,
-                    ),
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 20),
+                // Modern Header
+                _buildModernHeader(),
+
+                const SizedBox(height: 24),
+
+                // Greeting Card with Gradient
+                _buildGreetingCard(textTheme),
+
+                const SizedBox(height: 32),
+
+                // Section Title
+                Text(
+                  'Statistik Anda',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: AppColor.blueDark,
+                  ),
+                ),
+                const SizedBox(height: 16),
+
+                // Modern Stats Cards
+                _buildStatsCards(context),
+
+                const SizedBox(height: 32),
+
+                // Quick Actions Section
+                Text(
+                  'Aksi Cepat',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: AppColor.blueDark,
+                  ),
+                ),
+                const SizedBox(height: 16),
+
+                _buildQuickActions(context),
+
+                const SizedBox(height: 32),
+
+                // Start Debate Button
+                _buildStartDebateButton(context),
+
+                const SizedBox(height: 32),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // Modern Header with Logo
+  Widget _buildModernHeader() {
+    return Row(
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(12),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    AppColor.accent.withOpacity(0.8),
+                    AppColor.accent.withOpacity(0.6),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: Colors.white.withOpacity(0.2),
+                  width: 1.5,
+                ),
+              ),
+              child: Icon(Icons.forum_rounded, color: Colors.white, size: 24),
+            ),
+          ),
+        ),
+        const SizedBox(width: 12),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'CoachDebate',
+              style: TextStyle(
+                color: AppColor.blueDark,
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 0.5,
+              ),
+            ),
+            Text(
+              'Asah Kemampuan Berdebat',
+              style: TextStyle(
+                color: AppColor.blueDark.withOpacity(0.6),
+                fontSize: 12,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  // Greeting Card with Gradient and Glassmorphism
+  Widget _buildGreetingCard(TextTheme textTheme) {
+    return BlocBuilder<ProfileBloc, ProfileState>(
+      builder: (context, state) {
+        String userName = 'User';
+        if (state is ProfileLoaded) {
+          userName = state.profile.userName;
+        }
+
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(24),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    AppColor.accent.withOpacity(0.85),
+                    AppColor.blueDark.withOpacity(0.9),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(24),
+                border: Border.all(
+                  color: Colors.white.withOpacity(0.2),
+                  width: 1.5,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColor.accent.withOpacity(0.4),
+                    blurRadius: 30,
+                    offset: const Offset(0, 15),
+                    spreadRadius: -5,
                   ),
                 ],
               ),
-
-              Column(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24,
-                      vertical: 16,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 15,
-                          offset: const Offset(0, 5),
-                        ),
-                      ],
-                    ),
-                    child: BlocBuilder<ProfileBloc, ProfileState>(
-                      builder: (context, state) {
-                        String userName = 'User'; // Default fallback
-
-                        if (state is ProfileLoaded) {
-                          userName = state.profile.userName;
-                        }
-
-                        return Column(
-                          children: [
-                            Text(
-                              'Selamat Datang, $userName!',
-                              textAlign: TextAlign.center,
-                              style: textTheme.headlineLarge?.copyWith(
-                                color: AppColor.blueDark,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: 12),
-                            Text(
-                              'Tingkatkan kemampuan berdebat Anda.\nSiap untuk memulai sesi?',
-                              textAlign: TextAlign.center,
-                              style: textTheme.bodyLarge?.copyWith(
-                                color: AppColor.blueDark.withOpacity(0.8),
-                                height: 1.5,
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 40),
-
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      CardWidget(
-                        title: 'Sesi',
-                        value: '12',
-                        icon: Icons.assignment,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          context.goNamed(AppRouterEnum.topicsScreen.name);
-                        },
-                        child: CardWidget(
-                          title: 'Topik',
-                          value: '8',
-                          icon: Icons.topic,
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.15),
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                color: Colors.white.withOpacity(0.3),
+                                width: 1,
+                              ),
+                            ),
+                            child: Icon(
+                              Icons.waving_hand_rounded,
+                              color: Colors.amber[300],
+                              size: 24,
+                            ),
+                          ),
                         ),
                       ),
-                      CardWidget(
-                        title: 'Level',
-                        value: 'Intermediate',
-                        icon: Icons.star,
+                      const SizedBox(width: 12),
+                      Flexible(
+                        child: Text(
+                          'Halo, $userName!',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 0.3,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                     ],
                   ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'Mari tingkatkan skill debat Anda hari ini',
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.95),
+                      fontSize: 15,
+                      height: 1.4,
+                      letterSpacing: 0.2,
+                    ),
+                  ),
                 ],
               ),
+            ),
+          ),
+        );
+      },
+    );
+  }
 
-              Column(
-                children: [
-                  ScaleTransition(
-                    scale: _animation,
-                    child: GestureDetector(
-                      onTap: () {
-                        context.goNamed(AppRouterEnum.topicsScreen.name);
-                      },
-                      child: Container(
-                        width: 120,
-                        height: 120,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: AppColor.purpleLight,
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppColor.purpleLight.withOpacity(0.4),
-                              blurRadius: 20,
-                              spreadRadius: 3,
-                            ),
+  // Modern Stats Cards
+  Widget _buildStatsCards(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: _buildStatCard(
+            context,
+            icon: Icons.history_rounded,
+            title: 'Total Sesi',
+            value: '12',
+            color: AppColor.accent,
+            onTap: () => context.pushNamed(AppRouterEnum.historyScreen.name),
+          ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: _buildStatCard(
+            context,
+            icon: Icons.topic_rounded,
+            title: 'Topik',
+            value: '8',
+            color: AppColor.purpleLight,
+            onTap: () => context.pushNamed(AppRouterEnum.topicsScreen.name),
+          ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: _buildStatCard(
+            context,
+            icon: Icons.trending_up_rounded,
+            title: 'Level',
+            value: 'Pro',
+            color: AppColor.blueDark,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildStatCard(
+    BuildContext context, {
+    required IconData icon,
+    required String title,
+    required String value,
+    required Color color,
+    VoidCallback? onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(18),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.white.withOpacity(0.7),
+                  Colors.white.withOpacity(0.5),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(18),
+              border: Border.all(
+                color: Colors.white.withOpacity(0.4),
+                width: 1.5,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: color.withOpacity(0.15),
+                  blurRadius: 20,
+                  offset: const Offset(0, 8),
+                  spreadRadius: -3,
+                ),
+              ],
+            ),
+            child: Column(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            color.withOpacity(0.2),
+                            color.withOpacity(0.15),
                           ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
                         ),
-                        child: const Icon(
-                          Icons.mic,
-                          color: Colors.white,
-                          size: 50,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: color.withOpacity(0.3),
+                          width: 1,
                         ),
+                      ),
+                      child: Icon(icon, color: color, size: 24),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  value,
+                  style: TextStyle(
+                    color: AppColor.blueDark,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 0.3,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  title,
+                  style: TextStyle(
+                    color: AppColor.blueDark.withOpacity(0.7),
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // Quick Actions
+  Widget _buildQuickActions(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: _buildActionButton(
+            context,
+            icon: Icons.history_rounded,
+            label: 'Riwayat',
+            onTap: () => context.pushNamed(AppRouterEnum.historyScreen.name),
+          ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: _buildActionButton(
+            context,
+            icon: Icons.analytics_outlined,
+            label: 'Analisis',
+            onTap: () {
+              // Navigate to analysis page when available
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildActionButton(
+    BuildContext context, {
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.white.withOpacity(0.6),
+                  Colors.white.withOpacity(0.4),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: AppColor.accent.withOpacity(0.3),
+                width: 1.5,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: AppColor.accent.withOpacity(0.1),
+                  blurRadius: 15,
+                  offset: const Offset(0, 5),
+                ),
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(icon, color: AppColor.accent, size: 20),
+                const SizedBox(width: 8),
+                Text(
+                  label,
+                  style: TextStyle(
+                    color: AppColor.blueDark,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.2,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // Start Debate Button with Glassmorphism
+  Widget _buildStartDebateButton(BuildContext context) {
+    return GestureDetector(
+      onTap: () => context.pushNamed(AppRouterEnum.topicsScreen.name),
+      child: ScaleTransition(
+        scale: _animation,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(24),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    AppColor.purpleLight.withOpacity(0.9),
+                    AppColor.purpleLight.withOpacity(0.75),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(24),
+                border: Border.all(
+                  color: Colors.white.withOpacity(0.3),
+                  width: 1.5,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColor.purpleLight.withOpacity(0.5),
+                    blurRadius: 30,
+                    offset: const Offset(0, 15),
+                    spreadRadius: -5,
+                  ),
+                ],
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(50),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.2),
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: Colors.white.withOpacity(0.3),
+                            width: 1,
+                          ),
+                        ),
+                        child: Icon(Icons.mic_rounded, color: Colors.white, size: 28),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(width: 16),
                   Text(
-                    'Tap untuk mulai debat',
+                    'Mulai Debat Sekarang',
                     style: TextStyle(
-                      color: AppColor.blueDark.withOpacity(0.7),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 0.5,
                     ),
                   ),
+                  const SizedBox(width: 8),
+                  Icon(Icons.arrow_forward_rounded, color: Colors.white, size: 20),
                 ],
               ),
-            ],
+            ),
           ),
         ),
       ),
