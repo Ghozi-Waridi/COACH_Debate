@@ -409,10 +409,7 @@ Setelah aplikasi berjalan:
 
 **Supabase Free Tier Limits**:
 
-- 500MB database storage
-- 1GB file storage
-- 50,000 monthly active users
-- 2GB bandwidth
+- 500MB Database Auth storage
 
 Untuk production, pertimbangkan upgrade plan jika usage melebihi limit.
 
