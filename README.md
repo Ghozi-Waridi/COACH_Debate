@@ -373,7 +373,7 @@ flutter devices
 - Hubungkan device via USB
 - Verifikasi dengan `flutter devices`
 
-#### 7. **Jalankan Aplikasi**
+#### 6. **Jalankan Aplikasi**
 
 Jalankan aplikasi di device/emulator:
 
@@ -388,7 +388,7 @@ flutter run -d <device_id>
 flutter run
 ```
 
-#### 8. **Verifikasi**
+#### 7. **Verifikasi**
 
 Setelah aplikasi berjalan:
 
