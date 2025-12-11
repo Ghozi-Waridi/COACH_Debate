@@ -2,7 +2,7 @@
 
 Aplikasi debat interaktif berbasis Flutter yang menggunakan Large Language Model (LLM) untuk melatih kemampuan berdebat pengguna. Aplikasi ini menyediakan platform untuk berdebat dengan AI, analisis argumen, dan pelacakan progres.
 
-##  Screenshots
+## Screenshots
 
 <!-- Tambahkan screenshot aplikasi Anda di sini -->
 <!-- Buat folder 'screenshots' di root project dan simpan gambar-gambar di sana -->
@@ -24,8 +24,6 @@ Aplikasi debat interaktif berbasis Flutter yang menggunakan Large Language Model
   <img src="screenshots/page5.jpeg" width="200" alt="Login Screen"/>
   <img src="screenshots/page11.jpeg" width="200" alt="Analysis Screen"/>
 </div>
-
-
 
 ## 📋 Deskripsi
 
@@ -69,11 +67,192 @@ lib/
 └── main.dart              # Entry point
 ```
 
-Setiap fitur mengikuti struktur Clean Architecture:
+### 📐 Prinsip Clean Architecture
 
-- **Data Layer**: Datasources, Models, Repositories Implementation
-- **Domain Layer**: Entities, Repositories Interface, Usecases
-- **Presentation Layer**: Pages, Widgets, BLoC/State Management
+Project ini mengikuti prinsip **Clean Architecture** dengan pemisahan tanggung jawab menjadi **3 layer utama**:
+
+#### 1. **Presentation Layer** (Layer UI/Tampilan)
+
+- **Tanggung Jawab**: Menampilkan data kepada pengguna dan menangani interaksi user
+- **Komponen**:
+  - **BLoC**: State management untuk mengelola state dan events
+  - **Pages**: Halaman-halaman aplikasi
+  - **Widgets**: Komponen UI yang dapat digunakan kembali
+- **Dependency**: Hanya bergantung pada Domain Layer
+- **Contoh**: `auth_bloc.dart`, `login_page.dart`, `custom_button.dart`
+
+#### 2. **Domain Layer** (Layer Logika Bisnis)
+
+- **Tanggung Jawab**: Mengandung logika bisnis murni aplikasi
+- **Komponen**:
+  - **Entities**: Objek bisnis (model murni tanpa serialization)
+  - **Repository Interfaces**: Kontrak untuk operasi data
+  - **Use Cases**: Aksi bisnis spesifik (single responsibility)
+- **Dependency**: Tidak bergantung pada layer lain (pure Dart)
+- **Contoh**: `auth_entity.dart`, `auth_repository.dart`, `sign_in_usecase.dart`
+
+#### 3. **Data Layer** (Layer Infrastruktur)
+
+- **Tanggung Jawab**: Menangani semua operasi terkait data
+- **Komponen**:
+  - **Models**: Data model dengan JSON serialization
+  - **Data Sources**: Remote (API) dan Local (Cache)
+  - **Repository Implementation**: Implementasi konkret dari interface domain
+- **Dependency**: Bergantung pada Domain Layer
+- **Contoh**: `auth_model.dart`, `auth_remote_datasource.dart`, `auth_repository_impl.dart`
+
+### 🗂️ Penjelasan Struktur Folder
+
+#### **core/** - Konfigurasi Inti Aplikasi
+
+```
+core/
+├── config/          # Konfigurasi aplikasi (API endpoints, constants)
+├── error/           # Error handling (Failure classes, exceptions)
+├── router/          # Navigasi dan routing (GoRouter setup)
+└── theme/           # Theme dan styling (colors, typography)
+```
+
+**Fungsi**: Menyediakan fondasi dan konfigurasi global yang digunakan di seluruh aplikasi. Core module tidak bergantung pada fitur manapun dan dapat digunakan oleh semua layer.
+
+#### **features/** - Fitur Modular
+
+Setiap fitur di dalam folder `features/` mengikuti struktur Clean Architecture yang sama:
+
+```
+Feature/
+├── data/
+│   ├── datasources/        # Remote & Local data sources
+│   │   ├── feature_remote_datasource.dart
+│   │   └── feature_local_datasource.dart (opsional)
+│   ├── models/             # Data models dengan JSON serialization
+│   │   ├── feature_model.dart
+│   │   └── feature_model.g.dart (generated)
+│   └── repositories/       # Implementasi repository
+│       └── feature_repository_impl.dart
+├── domain/
+│   ├── entities/           # Business objects (pure Dart)
+│   │   └── feature_entity.dart
+│   ├── repositories/       # Repository interfaces (contracts)
+│   │   └── feature_repository.dart
+│   └── usecases/          # Business logic operations
+│       ├── get_feature_usecase.dart
+│       └── update_feature_usecase.dart
+└── presentation/
+    ├── bloc/              # State management
+    │   ├── feature_bloc.dart
+    │   ├── feature_event.dart
+    │   └── feature_state.dart
+    ├── pages/             # Halaman aplikasi
+    │   └── feature_page.dart
+    └── widgets/           # Custom widgets
+        └── feature_widget.dart
+```
+
+##### **Penjelasan Per Fitur:**
+
+**1. Auth (Autentikasi)**
+
+- **Data**: Integrasi dengan Supabase Auth untuk login, register, logout
+- **Domain**: Entities untuk User, UseCases untuk operasi auth
+- **Presentation**: AuthBloc, halaman Login/Register
+
+**2. Debate (Debat dengan AI)**
+
+- **Data**: Chat API datasource, Chat model dengan message history
+- **Domain**: Chat entity, SendMessage & CreateSession use cases
+- **Presentation**: DebateBloc, chat interface, message bubbles
+
+**3. Topics (Topik Debat)**
+
+- **Data**: NewsAPI integration untuk mengambil topik dari berita
+- **Domain**: Topic entity, GetTopics use case dengan filter kategori
+- **Presentation**: TopicsBloc, topic cards, category filters
+
+**4. History (Riwayat Debat)**
+
+- **Data**: History API untuk CRUD operations riwayat debate
+- **Domain**: History entity dengan nested messages, Get/Delete use cases
+- **Presentation**: HistoryBloc, history list, detail view
+
+**5. Profile (Profil Pengguna)**
+
+- **Data**: Supabase user metadata untuk menyimpan profil
+- **Domain**: Profile entity, Fetch & Update profile use cases
+- **Presentation**: ProfileBloc, profile page, edit form
+
+**6. Stt (Speech-to-Text)**
+
+- **Data**: Wrapper package speech_to_text
+- **Domain**: STT entity untuk state recognition, Init/Start/Stop use cases
+- **Presentation**: SttBloc, mic button, recording indicator
+
+**7. Analis (Analisis Debat)**
+
+- **Data**: Mengambil dan mengolah data dari History untuk statistik
+- **Domain**: Analytics entity, GetAnalytics & GetRecentSessions use cases
+- **Presentation**: AnalisBloc, dashboard dengan cards dan charts
+
+**8. Home (Halaman Utama)**
+
+- **Fungsi**: Landing page dengan quick access ke fitur utama
+- **Minimal setup**: Hanya presentation layer untuk navigasi
+
+#### **shared/** - Komponen Bersama
+
+```
+shared/
+├── data/              # Shared models, datasources
+├── domain/            # Shared entities, repositories
+├── presentation/      # Reusable widgets, common UI components
+└── utils/            # Helper functions, extensions, constants
+```
+
+**Fungsi**: Menyediakan komponen yang digunakan oleh berbagai fitur untuk menghindari duplikasi kode.
+
+#### **injection.dart** - Dependency Injection
+
+Mengelola semua dependencies menggunakan **GetIt** sebagai service locator:
+
+- Registrasi BLoC, UseCases, Repositories, DataSources
+- Singleton pattern untuk services yang shared
+- Memudahkan testing dengan dependency injection
+
+#### **main.dart** - Entry Point
+
+Titik awal aplikasi yang:
+
+- Inisialisasi Supabase dan environment variables
+- Setup dependency injection
+- Konfigurasi routing dengan GoRouter
+- Provide BLoC untuk state management global
+
+### 🔄 Data Flow dalam Clean Architecture
+
+```
+User Interaction (UI)
+        ↓
+   Presentation Layer (BLoC)
+        ↓
+   Domain Layer (UseCase)
+        ↓
+   Domain Layer (Repository Interface)
+        ↓
+   Data Layer (Repository Implementation)
+        ↓
+   Data Layer (DataSource - API/Local)
+        ↓
+   External (Supabase, NewsAPI, etc.)
+```
+
+### ✅ Keuntungan Clean Architecture
+
+1. **Separation of Concerns**: Setiap layer memiliki tanggung jawab yang jelas
+2. **Testability**: Mudah membuat unit test untuk setiap layer
+3. **Maintainability**: Perubahan di satu layer tidak mempengaruhi layer lain
+4. **Scalability**: Mudah menambah fitur baru tanpa merusak kode existing
+5. **Independence**: Domain layer tidak bergantung pada framework atau library eksternal
+6. **Reusability**: Use cases dapat digunakan di berbagai presentation layer
 
 ## 🛠️ Teknologi yang Digunakan
 
@@ -223,7 +402,6 @@ flutter devices
 
 ```
 
-
 **Untuk Physical Device:**
 
 - Enable USB Debugging di Android
@@ -308,8 +486,6 @@ Untuk production, pertimbangkan upgrade plan jika usage melebihi limit.
 - [Supabase Documentation](https://supabase.com/docs)
 - [Backend Repository](https://github.com/Ghozi-Waridi/django-backend-DebateAPP)
 
-
-
 ## 📱 Fitur Detail
 
 ### 1. Autentikasi (Auth)
@@ -369,7 +545,6 @@ Permissions yang diperlukan (sudah dikonfigurasi di `AndroidManifest.xml`):
 - Internet access
 - Microphone access (untuk Speech-to-Text)
 - Audio recording
-
 
 ## 📝 Dependency Injection
 
