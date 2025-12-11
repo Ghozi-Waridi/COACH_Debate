@@ -334,6 +334,7 @@ flutter pub get
 ```
 
 #### 4. **Konfigurasi Environment Variables (.env)**
+(disini saya memasukan file .env untuk mempermudah dosen saya dan untuk yang lain mohon kerja samanya yahh🙏🙏 tidak digunakna sembarangan🙏🙏 )
 
 Buat file `.env` di **root project** (sejajar dengan `pubspec.yaml`):
 
