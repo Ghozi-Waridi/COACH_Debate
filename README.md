@@ -245,15 +245,6 @@ User Interaction (UI)
    External (Supabase, NewsAPI, etc.)
 ```
 
-### ✅ Keuntungan Clean Architecture
-
-1. **Separation of Concerns**: Setiap layer memiliki tanggung jawab yang jelas
-2. **Testability**: Mudah membuat unit test untuk setiap layer
-3. **Maintainability**: Perubahan di satu layer tidak mempengaruhi layer lain
-4. **Scalability**: Mudah menambah fitur baru tanpa merusak kode existing
-5. **Independence**: Domain layer tidak bergantung pada framework atau library eksternal
-6. **Reusability**: Use cases dapat digunakan di berbagai presentation layer
-
 ## 🛠️ Teknologi yang Digunakan
 
 ### Framework & Language
@@ -266,9 +257,8 @@ User Interaction (UI)
 - **flutter_bloc** (^9.1.1): State management dengan BLoC pattern
 - **equatable** (^2.0.7): Equality comparison untuk state
 
-### Backend & Database
+### HTTP Client
 
-- **supabase_flutter** (^2.10.0): Backend-as-a-Service
 - **dio** (^5.9.0): HTTP client untuk API calls
 - **http** (^1.5.0): HTTP package alternatif
 
@@ -299,7 +289,6 @@ Pastikan Anda sudah menginstall tools berikut:
 - **Dart SDK** ^3.9.0 (sudah include dalam Flutter)
 - **Android Studio** atau **VS Code** dengan ekstensi Flutter
 - **Git** untuk clone repository
-- **Akun Supabase** (gratis) - [Daftar di sini](https://supabase.com)
 
 ### Langkah-langkah Clone & Setup
 
@@ -344,55 +333,30 @@ flutter clean
 flutter pub get
 ```
 
-#### 4. **Setup Backend (Supabase)**
+#### 4. **Konfigurasi Environment Variables (.env)**
 
-**Penting**: Project ini memerlukan backend untuk berfungsi dengan baik.
-
-📌 **Link Backend**: [COACH Debate Backend Repository](https://github.com/Ghozi-Waridi/django-backend-DebateAPP)
-
-Ikuti langkah-langkah berikut:
-
-a. **Buat Project Supabase**
-
-- Buka [Supabase Dashboard](https://app.supabase.com)
-- Klik "New Project"
-- Isi nama project, database password, dan region
-- Tunggu hingga project selesai dibuat
-
-b. **Dapatkan Credentials**
-
-- Di Supabase Dashboard, pergi ke **Settings** → **API**
-- Copy **Project URL** (sebagai `SUPABASE_URL`)
-- Copy **anon public** key (sebagai `SUPABASE_KEY`)
-
-c. **Setup Database & Functions**
-
-- Clone dan setup backend sesuai instruksi di [Backend Repository](https://github.com/Ghozi-Waridi/COACH_Debate_Backend) [ NOTE : Msih Terjadi Error 😭😭]
-- Deploy Edge Functions untuk AI debat
-- Setup database tables dan security policies
-
-#### 5. **Konfigurasi Environment Variables**
-
-Buat file `.env` di **root project** (sejajar dengan pubspec.yaml):
+Buat file `.env` di **root project** (sejajar dengan `pubspec.yaml`):
 
 ```bash
 touch .env
 ```
 
-Isi file `.env` dengan credentials Supabase Anda:
+Tambahkan konfigurasi Supabase berikut ke dalam file `.env`:
 
 ```env
-SUPABASE_URL=https://your-project.supabase.co
-SUPABASE_KEY=your-anon-key-here
+SUPABASE_URL=https://crmrojcxkgmvtqgrheqd.supabase.co
+SUPABASE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNybXJvamN4a2dtdnRxZ3JoZXFkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4NzYzMDIsImV4cCI6MjA3MjQ1MjMwMn0.maUVoaAHcv-P1cBU1994DPCnt7E8V7aFUWqU6sNqj-0
 ```
 
-⚠️ **Penting**:
+⚠️ **Catatan Penting**:
 
-- Jangan commit file `.env` ke Git (sudah ada di `.gitignore`)
-- Pastikan format URL benar dan tidak ada spasi
-- Gunakan `anon key` bukan `service_role key`
+- File `.env` sudah dikonfigurasi dan siap digunakan
+- Tidak perlu membuat akun Supabase baru
+- Credentials di atas adalah untuk environment development/testing
+- Pastikan tidak ada spasi sebelum atau sesudah tanda `=`
+- File `.env` tidak akan ter-commit ke Git (sudah ada di `.gitignore`)
 
-#### 6. **Setup Device/Emulator**
+#### 5. **Setup Device/Emulator**
 
 **Untuk Android:**
 
