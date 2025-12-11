@@ -442,11 +442,6 @@ Untuk production, pertimbangkan upgrade plan jika usage melebihi limit.
   - Pastikan backend sudah di-deploy
   - Verify Supabase credentials di `.env`
 
-### 📚 Resource Tambahan
-
-- [Flutter Documentation](https://docs.flutter.dev/)
-- [Supabase Documentation](https://supabase.com/docs)
-- [Backend Repository](https://github.com/Ghozi-Waridi/django-backend-DebateAPP)
 
 ## 📱 Fitur Detail
 
@@ -494,11 +489,6 @@ Untuk production, pertimbangkan upgrade plan jika usage melebihi limit.
 
 ## 🔧 Konfigurasi
 
-### Supabase Setup
-
-1. Buat project di [Supabase](https://supabase.com)
-2. Dapatkan URL dan Anon Key dari project settings
-3. Masukkan ke file `.env`
 
 ### Android Permissions
 
@@ -527,17 +517,8 @@ Aplikasi menggunakan **GetIt** untuk dependency injection. Semua dependencies di
 
 ## 📄 Lisensi
 
-Project ini bersifat private dan tidak dipublikasikan ke pub.dev.
+Project ini bersifat private selama kelas Mobile Programing belum selesai
 
-## 👥 Kontribusi
-
-Untuk berkontribusi pada project ini:
-
-1. Fork repository
-2. Buat branch fitur (`git checkout -b feature/AmazingFeature`)
-3. Commit perubahan (`git commit -m 'Add some AmazingFeature'`)
-4. Push ke branch (`git push origin feature/AmazingFeature`)
-5. Buat Pull Request
 
 ## 📞 Kontak
 
@@ -545,11 +526,7 @@ GitHub: [@Ghozi-Waridi](https://github.com/Ghozi-Waridi)
 
 Repository: [COACH_Debate](https://github.com/Ghozi-Waridi/COACH_Debate)
 
-## 🙏 Acknowledgments
 
-- Flutter Team untuk framework yang luar biasa
-- Supabase untuk backend infrastructure
-- Komunitas Flutter Indonesia
 
 ---
 
