@@ -19,6 +19,13 @@ Aplikasi debat interaktif berbasis Flutter yang menggunakan Large Language Model
   <img src="screenshots/page8.jpeg" width="200" alt="Profile Screen"/>
   <img src="screenshots/page7.jpeg" width="200" alt="Analysis Screen"/>
 </div>
+<div align="center">
+  <img src="screenshots/page4.jpeg" width="200" alt="SingUp Screen"/>
+  <img src="screenshots/page5.jpeg" width="200" alt="Login Screen"/>
+  <img src="screenshots/page9.jpeg" width="200" alt="Profile Screen"/>
+  <img src="screenshots/page11.jpeg" width="200" alt="Analysis Screen"/>
+</div>
+
 
 
 ## 📋 Deskripsi
